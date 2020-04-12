@@ -16,17 +16,16 @@
 
 package me.argraur.railgun.handlers;
 
-import me.argraur.railgun.commands.HelpCommand;
-import me.argraur.railgun.commands.OCommand;
-import me.argraur.railgun.commands.PingCommand;
+import me.argraur.railgun.commands.*;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.HashMap;
 
 public class CommandReceiveHandler {
-    private final int COMMANDS_COUNT = 3;
+    private final int COMMANDS_COUNT = 7;
     private HashMap<String, Integer> commandsMap = new HashMap<>();
     private RailgunOrder[] commands = new RailgunOrder[COMMANDS_COUNT];
     private int count = 0;
@@ -53,9 +52,13 @@ public class CommandReceiveHandler {
      * Default constructor.
      * @param messageChannel Registers commands.
      */
-    public CommandReceiveHandler(MessageChannel messageChannel) {
+    public CommandReceiveHandler(MessageChannel messageChannel, Message msg) {
         registerCommand(new PingCommand(messageChannel));
         registerCommand(new OCommand(messageChannel));
+        registerCommand(new KitsuCommand(messageChannel));
+        registerCommand(new SlapCommand(messageChannel, msg));
+        registerCommand(new HugCommand(messageChannel, msg));
+        registerCommand(new GifCommand(messageChannel, msg));
         registerCommand(new HelpCommand(messageChannel, commands));
     }
 

@@ -8,9 +8,13 @@ version 'one'
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile "net.dv8tion:JDA:4.1.1_101"
+    compile group: 'org.json', name: 'json', version: '20190722'
+    compile 'at.mukprojects:giphy4j:1.0.1'
+    implementation("com.squareup.okhttp3:okhttp:4.5.0")
 }

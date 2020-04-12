@@ -27,12 +27,6 @@ public class OCommand implements RailgunOrder {
     private String oHelp = oCommand + " - loooooooooooooooooong";
     private Random random = new Random();
     private MessageChannel messageChannel;
-    private String[] oArr = {
-            "oo",
-            "ooooo",
-            "ooooooooo",
-            "ooooooooooooo"
-    };
 
     public OCommand(MessageChannel messageChannel) {
         this.messageChannel = messageChannel;
@@ -51,11 +45,13 @@ public class OCommand implements RailgunOrder {
     public String getOutput(String args) {
         String[] temp = args.split(" ");
         StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder oes = new StringBuilder();
         for (String s : temp) {
+            oes.append("o".repeat(Math.max(0, random.nextInt(100))));
             stringBuilder.append(s.replaceAll(
-                    "o",
-                    oArr[random.nextInt(3)]
+                    "o", oes.toString()
             )).append(" ");
+            oes = new StringBuilder();
         }
         return stringBuilder.toString();
     }

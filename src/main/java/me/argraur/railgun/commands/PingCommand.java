@@ -18,6 +18,7 @@ package me.argraur.railgun.commands;
 
 import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class PingCommand implements RailgunOrder {

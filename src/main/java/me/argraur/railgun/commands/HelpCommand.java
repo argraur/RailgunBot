@@ -18,7 +18,11 @@ package me.argraur.railgun.commands;
 
 import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+
+import java.awt.*;
 
 public class HelpCommand implements RailgunOrder {
     private RailgunOrder[] commands;
@@ -32,18 +36,28 @@ public class HelpCommand implements RailgunOrder {
         this.commands = commands;
     }
 
+    public MessageEmbed createEmbed(String args) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(Color.pink);
+        embedBuilder.setTitle("Misaka-chan!");
+        embedBuilder.setDescription("I can't do many fancy stuff. BUT! Here is what I can do *currently*!" + getOutput(args));
+        String misakaPic = "https://media.discordapp.net/attachments/698965374317625345/699022743542169691/oof.jpg?width=799&height=677";
+        embedBuilder.setImage(misakaPic);
+        return embedBuilder.build();
+    }
+
     @Override
     public void call(String args) {
-        messageChannel.sendMessage(getOutput(args)).queue();
+        messageChannel.sendMessage(createEmbed(args)).queue();
     }
 
     @Override
     public String getOutput(String args) {
         StringBuilder output = new StringBuilder();
-        output.append("\nBot help: \n```");
+        output.append("```");
         for (RailgunOrder command : commands) {
             output.append(command.getHelp());
-            output.append("\n");
+            output.append("\n\n");
         }
         output.append("```");
         return output.toString();
