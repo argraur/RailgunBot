@@ -27,11 +27,6 @@ import javax.annotation.Nonnull;
 
 public class MessageListener extends ListenerAdapter {
     /**
-     * Empty constructor.
-     */
-    public MessageListener() {}
-
-    /**
      * Called whenever the bot gets a message.
      * @param event Event of received message.
      */
