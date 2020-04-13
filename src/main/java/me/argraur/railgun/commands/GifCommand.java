@@ -70,7 +70,7 @@ public class GifCommand implements RailgunOrder {
         }
         try {
             SearchFeed feed = giphy.search(temp, 20, 0);
-            embedBuilder.setImage(feed.getDataList().get(random.nextInt(20)).getImages().getOriginal().getUrl());
+            embedBuilder.setImage(feed.getDataList().get(random.nextInt(feed.getDataList().size())).getImages().getOriginal().getUrl());
         } catch (GiphyException ignored) {}
         embedBuilder.setColor(Color.PINK);
         messageChannel.sendMessage(embedBuilder.build()).queue();

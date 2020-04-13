@@ -34,6 +34,15 @@ public class ConfigReader {
     }
 
     /**
+     * 
+     * @param key Key
+     * @param value New value
+     */
+    public void setValue(String key, String value) {
+        properties.setProperty(key, value);
+    }
+
+    /**
      *
      * @throws IOException If inputStream is dead
      */

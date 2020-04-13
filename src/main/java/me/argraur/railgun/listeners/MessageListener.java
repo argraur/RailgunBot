@@ -38,7 +38,7 @@ public class MessageListener extends ListenerAdapter {
             return;
         CommandReceiveHandler crh = new CommandReceiveHandler(msg.getChannel(), msg);
         System.out.println("[VERBOSE] MessageReceived: " + msgStr);
-        if (crh.checkIfCommandExists(msgStr.split(" ")[0])) {
+        if (crh.checkIfCommandExists(msgStr.split(" ")[0]) && !RailgunBot.getIgnoreHelper().checkIfIgnored(msg)) {
             crh.onCommandReceived(msgStr);
         } else {
             System.out.println("[VERBOSE] Command doesn't exist!");

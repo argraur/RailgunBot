@@ -16,6 +16,7 @@
 
 package me.argraur.railgun.handlers;
 
+import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.commands.*;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
@@ -25,7 +26,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.util.HashMap;
 
 public class CommandReceiveHandler {
-    private final int COMMANDS_COUNT = 7;
+    private final int COMMANDS_COUNT = 9;
     private HashMap<String, Integer> commandsMap = new HashMap<>();
     private RailgunOrder[] commands = new RailgunOrder[COMMANDS_COUNT];
     private int count = 0;
@@ -59,6 +60,8 @@ public class CommandReceiveHandler {
         registerCommand(new SlapCommand(messageChannel, msg));
         registerCommand(new HugCommand(messageChannel, msg));
         registerCommand(new GifCommand(messageChannel, msg));
+        registerCommand(new IgnoreCommand(RailgunBot.getIgnoreHelper(), msg));
+        registerCommand(new PardonCommand(RailgunBot.getIgnoreHelper(), msg));
         registerCommand(new HelpCommand(messageChannel, commands));
     }
 

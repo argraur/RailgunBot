@@ -17,6 +17,7 @@
 package me.argraur.railgun;
 
 import me.argraur.railgun.helpers.ConfigReader;
+import me.argraur.railgun.helpers.IgnoreHelper;
 import me.argraur.railgun.listeners.MessageListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -24,12 +25,15 @@ import net.dv8tion.jda.api.entities.Activity;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class RailgunBot {
     public JDA discordBot;
     public static ConfigReader configReader;
     public static String COMMAND_PREFIX;
     public static MessageListener messageListener;
+    public static IgnoreHelper ignoreHelper;
+    public static HashMap<String, String> channels = new HashMap<>();
 
     /**
      * Sets command prefix by reading from config.
@@ -46,7 +50,7 @@ public class RailgunBot {
     private JDABuilder configureBot() {
         messageListener = new MessageListener();
         JDABuilder jb = new JDABuilder(readConfig("token"));
-        jb.setActivity(Activity.playing("with Railgun"));
+        jb.setActivity(Activity.playing("with Gekota"));
         jb.addEventListeners(messageListener);
         return jb;
     }
@@ -57,9 +61,7 @@ public class RailgunBot {
     private RailgunBot() {
         try {
             discordBot = configureBot().build();
-            System.out.println("[VERBOSE] INIT: Connected to Discord servers!");
         } catch (LoginException e) {
-            System.out.println("[ERROR] INIT: Error while initializing JDA!");
             System.exit(1);
         }
     }
@@ -79,8 +81,8 @@ public class RailgunBot {
     public static void init() {
         try {
             configReader = new ConfigReader();
+            ignoreHelper = new IgnoreHelper();
         } catch (IOException e) {
-            System.out.println("[ERROR] INIT: IOException occured while trying to initialize ConfigReader!");
             error();
         }
         setCommandPrefix();
@@ -92,7 +94,6 @@ public class RailgunBot {
      * @param args Standard function argument.
      */
     public static void main(String[] args) {
-        System.out.println("[VERBOSE] INIT: MISAKA_00000 Initializes...");
         init();
     }
 
@@ -101,5 +102,13 @@ public class RailgunBot {
      */
     public static void error() {
         System.exit(1);
+    }
+
+    public static IgnoreHelper getIgnoreHelper() {
+        return ignoreHelper;
+    }
+
+    public static HashMap<String, String> getChannels() {
+        return channels;
     }
 }

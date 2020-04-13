@@ -48,10 +48,11 @@ public class SlapCommand implements RailgunOrder {
     @Override
     public void call(String args) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("SLAP YOU!");
-        embedBuilder.setDescription("<@" + msg.getMentionedMembers().get(0).getId() + ">");
+        embedBuilder.setTitle("SLAP!");
+        embedBuilder.setDescription("<@" + msg.getAuthor().getId() + ">" + " slaps " + args.split(" ")[1] + "!");
         embedBuilder.setImage(urlArr[rnd.nextInt(8)]);
         embedBuilder.setColor(Color.PINK);
+        msg.delete().queue();
         messageChannel.sendMessage(embedBuilder.build()).queue();
     }
 

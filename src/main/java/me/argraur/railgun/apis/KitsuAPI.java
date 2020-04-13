@@ -69,7 +69,7 @@ public class KitsuAPI {
      */
     public JSONObject getRandomAnimeObject(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("data");
-        return jsonArray.getJSONObject(random.nextInt(jsonArray.length() - 1));
+        return jsonArray.getJSONObject(random.nextInt(jsonArray.length()));
     }
 
     /**
