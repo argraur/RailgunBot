@@ -1,5 +1,6 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 ![Java CI with Gradle](https://github.com/argraur/RailgunBot/workflows/Java%20CI%20with%20Gradle/badge.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/argraur/RailgunBot/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/argraur/RailgunBot?targetFile=build.gradle)
 
 # Misaka-chan Discord Bot
 
