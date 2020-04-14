@@ -71,6 +71,10 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
 
+`>kick <mention>` - Kicks mentioned user
+
+`>ban <mention>` - Bans mentioned user
+
 `>help` - returns bot help
 
 ## Built with
