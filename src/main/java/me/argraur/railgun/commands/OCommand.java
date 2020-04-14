@@ -47,7 +47,9 @@ public class OCommand implements RailgunOrder {
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder oes = new StringBuilder();
         for (String s : temp) {
-            oes.append("o".repeat(Math.max(0, random.nextInt(100))));
+            for (int i = 0; i < random.nextInt(100); i++) {
+                oes.append("o");
+            }
             stringBuilder.append(s.replaceAll(
                     "o", oes.toString()
             )).append(" ");
