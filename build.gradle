@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'me.argraur'
-version 'one'
+version '0.1.0-alpha'
 
 repositories {
     mavenCentral()
