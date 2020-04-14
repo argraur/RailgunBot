@@ -16,10 +16,8 @@
 
 package me.argraur.railgun.commands;
 
-import at.mukprojects.giphy4j.Giphy;
-import at.mukprojects.giphy4j.entity.search.SearchFeed;
-import at.mukprojects.giphy4j.exception.GiphyException;
 import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.GiphyHelper;
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -30,15 +28,12 @@ import java.util.Random;
 
 public class GifCommand implements RailgunOrder {
     private String gifCommand = RailgunBot.COMMAND_PREFIX + "gif";
-    private final String token;
     private MessageChannel messageChannel;
     private Message msg;
-    private Random random = new Random();
 
     public GifCommand(MessageChannel messageChannel, Message msg) {
         this.messageChannel = messageChannel;
         this.msg = msg;
-        token = RailgunBot.readConfig("giphy");
     }
 
     @Override
@@ -62,16 +57,14 @@ public class GifCommand implements RailgunOrder {
     @Override
     public void call(String args) {
         String temp = args.replaceAll(gifCommand + " ", "");
-        Giphy giphy = new Giphy(token);
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if (!msg.getMentionedMembers().isEmpty()) {
             embedBuilder.setDescription("<@" + msg.getMentionedMembers().get(0).getId() + ">");
             temp.replaceAll(" <@" + msg.getMentionedMembers().get(0).getId() + ">", "");
         }
         try {
-            SearchFeed feed = giphy.search(temp, 20, 0);
-            embedBuilder.setImage(feed.getDataList().get(random.nextInt(feed.getDataList().size())).getImages().getOriginal().getUrl());
-        } catch (GiphyException ignored) {}
+            embedBuilder.setImage(RailgunBot.giphyHelper.searchRandomGif(temp));
+        } catch (IllegalStateException e) { return; }
         embedBuilder.setColor(Color.PINK);
         messageChannel.sendMessage(embedBuilder.build()).queue();
     }

@@ -18,6 +18,8 @@ package me.argraur.railgun;
 
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
+import me.argraur.railgun.helpers.GiphyHelper;
+
 import me.argraur.railgun.listeners.MessageListener;
 
 import net.dv8tion.jda.api.JDA;
@@ -34,6 +36,7 @@ public class RailgunBot {
     public static String COMMAND_PREFIX;
     public static MessageListener messageListener;
     public static IgnoreHelper ignoreHelper;
+    public static GiphyHelper giphyHelper;
     public static HashMap<String, String> channels = new HashMap<>();
 
     /**
@@ -83,6 +86,7 @@ public class RailgunBot {
         try {
             configReader = new ConfigReader();
             ignoreHelper = new IgnoreHelper();
+            giphyHelper = new GiphyHelper(readConfig("giphy"));
         } catch (IOException e) {
             error();
         }
