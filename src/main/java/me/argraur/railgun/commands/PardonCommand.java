@@ -16,17 +16,15 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.helpers.IgnoreHelper;
+import static me.argraur.railgun.RailgunBot.ignoreHelper;
+import static me.argraur.railgun.commands.IgnoreCommand.senpaiId;
+
+import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.entities.Message;
 
-public class PardonCommand extends IgnoreCommand {
-    private String pardonCommand = RailgunBot.COMMAND_PREFIX + "pardon";
-
-    public PardonCommand(IgnoreHelper ignoreHelper, Message msg) {
-        super(ignoreHelper, msg);
-    }
+public class PardonCommand implements RailgunOrder {
+    private String pardonCommand = "pardon";
 
     @Override
     public String getCommand() {
@@ -34,9 +32,9 @@ public class PardonCommand extends IgnoreCommand {
     }
 
     @Override
-    public void call(String args) {
-        if (super.msg.getAuthor().getId().equals(senpaiId) && !super.msg.getMentionedUsers().get(0).getId().equals(senpaiId)) {
-            super.ignoreHelper.delIgnored(super.msg.getMentionedUsers().get(0).getId(), super.msg);
+    public void call(Message message) {
+        if (message.getAuthor().getId().equals(senpaiId) && !message.getMentionedUsers().get(0).getId().equals(senpaiId)) {
+            ignoreHelper.delIgnored(message.getMentionedUsers().get(0).getId(), message);
         }
     }
 

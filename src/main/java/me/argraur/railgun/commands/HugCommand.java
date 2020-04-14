@@ -16,35 +16,16 @@
 
 package me.argraur.railgun.commands;
 
-import at.mukprojects.giphy4j.Giphy;
-import at.mukprojects.giphy4j.entity.search.SearchFeed;
-import at.mukprojects.giphy4j.exception.GiphyException;
-import me.argraur.railgun.RailgunBot;
+import static me.argraur.railgun.RailgunBot.giphyHelper;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
-import java.awt.*;
-import java.util.Random;
+import static java.awt.Color.PINK;
 
 public class HugCommand implements RailgunOrder {
-    private String hugCommand = RailgunBot.COMMAND_PREFIX + "hug";
-    private final String token;
-    private MessageChannel messageChannel;
-    private Message msg;
-    private Random random = new Random();
-
-    public HugCommand(MessageChannel messageChannel, Message msg) {
-        this.messageChannel = messageChannel;
-        this.msg = msg;
-        token = RailgunBot.readConfig("giphy");
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return null;
-    }
+    private String hugCommand = "hug";
 
     @Override
     public String getCommand() {
@@ -60,16 +41,12 @@ public class HugCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        Giphy giphy = new Giphy(token);
+    public void call(Message message) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("HUG YOU!");
-        embedBuilder.setDescription("<@" + msg.getMentionedMembers().get(0).getId() + ">");
-        try {
-            SearchFeed feed = giphy.search("anime hug", 20, 0);
-            embedBuilder.setImage(feed.getDataList().get(random.nextInt(20)).getImages().getOriginal().getUrl());
-        } catch (GiphyException ignored) {}
-        embedBuilder.setColor(Color.PINK);
-        messageChannel.sendMessage(embedBuilder.build()).queue();
+        embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
+        embedBuilder.setImage(giphyHelper.searchRandomGif("anime hug"));
+        embedBuilder.setColor(PINK);
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

@@ -16,57 +16,55 @@
 
 package me.argraur.railgun.handlers;
 
-import me.argraur.railgun.RailgunBot;
+import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
+
 import me.argraur.railgun.commands.*;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.HashMap;
 
 public class CommandHandler {
-    private final int COMMANDS_COUNT = 13;
-    private HashMap<String, Integer> commandsMap = new HashMap<>();
-    private RailgunOrder[] commands = new RailgunOrder[COMMANDS_COUNT];
-    private int count = 0;
+    private HashMap<String, RailgunOrder> commandsMap = new HashMap<>();
 
     /**
      * Registers the command in handler.
      * @param command RailgunOrder command object to register.
      */
     void registerCommand(RailgunOrder command) {
-        commands[count] = command;
-        commandsMap.put(command.getCommand(), count);
-        count++;
+        commandsMap.put(command.getCommand(), command);
+        System.out.println("CommandHandler: Registered command " + command.getCommand());
     }
 
     /**
      *
      * @param command Called when command received.
      */
-    public void onCommandReceived(String command) {
-        commands[commandsMap.get(command.split(" ")[0])].call(command);
+    public void onCommandReceived(String command, Message message) {
+        commandsMap.get(command.split(" ")[0].replace(COMMAND_PREFIX, "")).call(message);
     }
 
     /**
      * Default constructor.
      * @param messageChannel Registers commands.
      */
-    public CommandHandler(MessageChannel messageChannel, Message msg) {
-        registerCommand(new PingCommand(messageChannel));
-        registerCommand(new OCommand(messageChannel));
-        registerCommand(new KitsuCommand(messageChannel));
-        registerCommand(new SlapCommand(messageChannel, msg));
-        registerCommand(new HugCommand(messageChannel, msg));
-        registerCommand(new GifCommand(messageChannel, msg));
-        registerCommand(new IgnoreCommand(RailgunBot.getIgnoreHelper(), msg));
-        registerCommand(new PardonCommand(RailgunBot.getIgnoreHelper(), msg));
-        registerCommand(new MockCommand(messageChannel));
-        registerCommand(new CalcCommand(messageChannel));
-        registerCommand(new KickCommand(messageChannel, msg));
-        registerCommand(new BanCommand(messageChannel,  msg));
-        registerCommand(new HelpCommand(messageChannel, commands));
+    public CommandHandler() {
+        registerCommand(new PingCommand());
+        registerCommand(new OCommand());
+        registerCommand(new KitsuCommand());
+        registerCommand(new SlapCommand());
+        registerCommand(new HugCommand());
+        registerCommand(new GifCommand());
+        registerCommand(new IgnoreCommand());
+        registerCommand(new PardonCommand());
+        registerCommand(new MockCommand());
+        registerCommand(new CalcCommand());
+        registerCommand(new KickCommand());
+        registerCommand(new BanCommand());
+        registerCommand(new HelpCommand(commandsMap));
+        System.out.println("CommandHandler is ready!");
+        //registerCommand(new HelpCommand());
     }
 
     /**
@@ -75,6 +73,6 @@ public class CommandHandler {
      * @return Whether command exist or not
      */
     public boolean checkIfCommandExists(String command) {
-        return commandsMap.containsKey(command);
+        return commandsMap.containsKey(command.replace(COMMAND_PREFIX, ""));
     }
 }

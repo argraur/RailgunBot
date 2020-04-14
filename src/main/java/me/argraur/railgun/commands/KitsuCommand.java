@@ -16,27 +16,15 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.apis.KitsuAPI;
+import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
+import static me.argraur.railgun.RailgunBot.kitsuApi;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+
+import net.dv8tion.jda.api.entities.Message;
 
 public class KitsuCommand implements RailgunOrder {
-    private KitsuAPI kitsuAPI;
-    private MessageChannel messageChannel;
-
-    private String kitsuCommand = RailgunBot.COMMAND_PREFIX + "kitsu";
-
-    public KitsuCommand(MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
-        kitsuAPI = new KitsuAPI();
-    }
-
-    @Override
-    public String getOutput(String args) {
-        // This command returns MessageEmbed, so we don't need this method.
-        return null;
-    }
+    private String kitsuCommand = "kitsu";
 
     @Override
     public String getCommand() {
@@ -52,15 +40,15 @@ public class KitsuCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        String temp = args;
-        temp = temp.substring((getCommand() + " " + args.split(" ")[1]).length());
-        switch (args.split(" ")[1]) {
+    public void call(Message message) {
+        String temp = message.getContentRaw();
+        temp = temp.substring((COMMAND_PREFIX + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
+        switch (message.getContentRaw().split(" ")[1]) {
             case "genre":
-                messageChannel.sendMessage(kitsuAPI.toEmbed(kitsuAPI.searchRandomByGenre(args.split(" ")[2]))).queue();
+                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
                 break;
             case "search":
-                messageChannel.sendMessage(kitsuAPI.toEmbed(kitsuAPI.searchByQuery(temp))).queue();
+                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchByQuery(temp))).queue();
             default: break;
         }
     }

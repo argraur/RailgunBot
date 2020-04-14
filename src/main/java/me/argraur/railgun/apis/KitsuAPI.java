@@ -42,6 +42,7 @@ public class KitsuAPI {
     public KitsuAPI() {
         okHttpClient = new OkHttpClient();
         random = new Random();
+        System.out.println("KitsuAPI is ready!");
     }
 
     /**

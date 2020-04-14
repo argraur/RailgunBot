@@ -20,6 +20,11 @@ import me.argraur.railgun.RailgunBot;
 import net.dv8tion.jda.api.entities.Message;
 
 public class IgnoreHelper {
+    
+    public IgnoreHelper() {
+        System.out.println("IgnoreHelper is ready!");
+    }
+
     /**
      * 
      * @param id

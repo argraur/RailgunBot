@@ -18,17 +18,14 @@ package me.argraur.railgun.commands;
 
 import java.util.Random;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+
+import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
+
+import net.dv8tion.jda.api.entities.Message;
 
 public class MockCommand implements RailgunOrder {
-    private String command = RailgunBot.COMMAND_PREFIX + "mock";
-    private MessageChannel messageChannel;
-
-    public MockCommand(MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
-    }
+    private String command = "mock";
 
     @Override
     public String getCommand() {
@@ -36,11 +33,10 @@ public class MockCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        messageChannel.sendMessage(getOutput(args)).queue();
+    public void call(Message message) {
+        message.getChannel().sendMessage(getOutput(message.getContentRaw())).queue();
     }
 
-    @Override
     public String getOutput(String args) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < args.split("").length; i++) {
@@ -50,7 +46,7 @@ public class MockCommand implements RailgunOrder {
                 result.append(args.split("")[i]);
             }
         }
-        result.replace(0, command.length(), "");
+        result.replace(0, (COMMAND_PREFIX + command).length(), "");
         return result.toString();
     }
 

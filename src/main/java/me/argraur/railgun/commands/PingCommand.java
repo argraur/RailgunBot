@@ -16,28 +16,17 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Message;
 
 public class PingCommand implements RailgunOrder {
-    private final String pingCommand = RailgunBot.COMMAND_PREFIX + "ping";
+    private final String pingCommand = "ping";
     private final String pingHelp = pingCommand + " - Pong!";
-    private final MessageChannel channel;
-
-    public PingCommand(MessageChannel channel) {
-        this.channel = channel;
-    }
 
     @Override
-    public void call(String args) {
-        channel.sendMessage(getOutput(args)).queue();
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return "Pong!";
+    public void call(Message message) {
+        message.getChannel().sendMessage("Pong!").queue();
     }
 
     @Override

@@ -16,12 +16,12 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
+import net.dv8tion.jda.api.entities.Message;
 
 public class ExampleCommand implements RailgunOrder {
     // @param String, command name
-    private String exampleCommand = RailgunBot.COMMAND_PREFIX + "example";
+    private String exampleCommand = "example";
 
     /**
      * Returns command name (used by CommandHandler)
@@ -34,20 +34,10 @@ public class ExampleCommand implements RailgunOrder {
 
     /**
      * Called by CommandHandler when received message with exampleCommand
-     * @param Message body
+     * @param Message object
      */
     @Override
-    public void call(String args) {}
-
-    /**
-     * Used by call to create reply, optional.
-     * @param Message body
-     * @return null
-     */
-    @Override
-    public String getOutput(String args) {
-        return null;
-    }
+    public void call(Message message) {}
 
     /**
      * Used by HelpCommand to create the help embed message.

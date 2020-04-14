@@ -17,29 +17,15 @@
 package me.argraur.railgun.commands;
 
 import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.helpers.GiphyHelper;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
-import java.awt.*;
-import java.util.Random;
+import static java.awt.Color.PINK;
 
 public class GifCommand implements RailgunOrder {
-    private String gifCommand = RailgunBot.COMMAND_PREFIX + "gif";
-    private MessageChannel messageChannel;
-    private Message msg;
-
-    public GifCommand(MessageChannel messageChannel, Message msg) {
-        this.messageChannel = messageChannel;
-        this.msg = msg;
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return null;
-    }
+    private String gifCommand = "gif";
 
     @Override
     public String getCommand() {
@@ -55,17 +41,17 @@ public class GifCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        String temp = args.replaceAll(gifCommand + " ", "");
+    public void call(Message message) {
+        String temp = message.getContentRaw().replaceAll(gifCommand + " ", "");
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        if (!msg.getMentionedMembers().isEmpty()) {
-            embedBuilder.setDescription("<@" + msg.getMentionedMembers().get(0).getId() + ">");
-            temp.replaceAll(" <@" + msg.getMentionedMembers().get(0).getId() + ">", "");
+        if (!message.getMentionedMembers().isEmpty()) {
+            embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
+            temp.replaceAll(" <@" + message.getMentionedMembers().get(0).getId() + ">", "");
         }
         try {
             embedBuilder.setImage(RailgunBot.giphyHelper.searchRandomGif(temp));
         } catch (IllegalStateException e) { return; }
-        embedBuilder.setColor(Color.PINK);
-        messageChannel.sendMessage(embedBuilder.build()).queue();
+        embedBuilder.setColor(PINK);
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }
