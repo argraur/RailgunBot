@@ -54,7 +54,7 @@ public class RailgunBot {
     private JDABuilder configureBot() {
         messageListener = new MessageListener();
         JDABuilder jb = new JDABuilder(readConfig("token"));
-        jb.setActivity(Activity.playing("with Gekota"));
+        jb.setActivity(Activity.playing(readConfig("activity")));
         jb.addEventListeners(messageListener);
         return jb;
     }
