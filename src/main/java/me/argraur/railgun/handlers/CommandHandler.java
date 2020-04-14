@@ -18,6 +18,7 @@ package me.argraur.railgun.handlers;
 
 import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
 
+import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.commands.*;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
@@ -53,6 +54,7 @@ public class CommandHandler {
         registerCommand(new PingCommand());
         registerCommand(new OCommand());
         registerCommand(new KitsuCommand());
+        registerCommand(new UDCommand());
         registerCommand(new SlapCommand());
         registerCommand(new HugCommand());
         registerCommand(new GifCommand());
