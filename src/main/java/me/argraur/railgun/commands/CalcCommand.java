@@ -41,10 +41,10 @@ public class CalcCommand implements RailgunOrder {
     @Override
     public void call(String args) {
         String[] arr = args.replace(calcCommand + " ", "").toString().split(" ");
-        float tmp = Integer.parseInt(arr[0]); float result = 0;
+        float tmp = Float.parseFloat(arr[0]); float result = 0;
         for (int i = 1; i < arr.length; i++) {
             try {
-                tmp = Integer.parseInt(arr[i]);
+                tmp = Float.parseFloat(arr[i]);
             } catch (NumberFormatException nfe) {
                 switch (arr[i]) {
                     case "/":
