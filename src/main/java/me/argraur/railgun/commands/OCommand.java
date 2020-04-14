@@ -16,32 +16,25 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Random;
 
 public class OCommand implements RailgunOrder {
-    private String oCommand = RailgunBot.COMMAND_PREFIX + "long";
+    private String oCommand = "long";
     private String oHelp = oCommand + " - loooooooooooooooooong";
     private Random random = new Random();
-    private MessageChannel messageChannel;
-
-    public OCommand(MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
-    }
 
     @Override
-    public void call(String args) {
+    public void call(Message message) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < args.split(" ").length; i++) {
-            sb.append(args.split(" ")[i]).append(" ");
+        for (int i = 1; i < message.getContentRaw().split(" ").length; i++) {
+            sb.append(message.getContentRaw().split(" ")[i]).append(" ");
         }
-        messageChannel.sendMessage(getOutput(sb.toString())).queue();
+        message.getChannel().sendMessage(getOutput(sb.toString())).queue();
     }
 
-    @Override
     public String getOutput(String args) {
         String[] temp = args.split(" ");
         StringBuilder stringBuilder = new StringBuilder();

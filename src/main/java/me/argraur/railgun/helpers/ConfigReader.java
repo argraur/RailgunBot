@@ -55,5 +55,6 @@ public class ConfigReader {
         } else {
             throw new FileNotFoundException(FILENAME + " not found");
         }
+        System.out.println("ConfigReader is ready!");
     }
 }

@@ -16,6 +16,8 @@
 
 package me.argraur.railgun;
 
+import me.argraur.railgun.apis.KitsuAPI;
+import me.argraur.railgun.handlers.CommandHandler;
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
 import me.argraur.railgun.helpers.GiphyHelper;
@@ -25,6 +27,7 @@ import me.argraur.railgun.listeners.MessageListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.utils.Compression;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
@@ -32,12 +35,20 @@ import java.util.HashMap;
 
 public class RailgunBot {
     public JDA discordBot;
-    public static ConfigReader configReader;
     public static String COMMAND_PREFIX;
-    public static MessageListener messageListener;
+    public static HashMap<String, String> channels = new HashMap<>();
+
+    // Define base helpers
+    public static ConfigReader configReader;
     public static IgnoreHelper ignoreHelper;
     public static GiphyHelper giphyHelper;
-    public static HashMap<String, String> channels = new HashMap<>();
+
+    // Define main command handlers
+    public static MessageListener messageListener;
+    public static CommandHandler commandHandler;
+
+    // Define additional API classes
+    public static KitsuAPI kitsuApi;
 
     /**
      * Sets command prefix by reading from config.
@@ -54,6 +65,7 @@ public class RailgunBot {
     private JDABuilder configureBot() {
         messageListener = new MessageListener();
         JDABuilder jb = new JDABuilder(readConfig("token"));
+        jb.setCompression(Compression.NONE);
         jb.setActivity(Activity.playing(readConfig("activity")));
         jb.addEventListeners(messageListener);
         return jb;
@@ -64,6 +76,7 @@ public class RailgunBot {
      */
     private RailgunBot() {
         try {
+            System.out.println("Entering Discord Bot build state!");
             discordBot = configureBot().build();
         } catch (LoginException e) {
             System.exit(1);
@@ -87,6 +100,8 @@ public class RailgunBot {
             configReader = new ConfigReader();
             ignoreHelper = new IgnoreHelper();
             giphyHelper = new GiphyHelper(readConfig("giphy"));
+            commandHandler = new CommandHandler();
+            kitsuApi = new KitsuAPI();
         } catch (IOException e) {
             error();
         }
@@ -99,6 +114,7 @@ public class RailgunBot {
      * @param args Standard function argument.
      */
     public static void main(String[] args) {
+        System.out.println("RailgunBot: START!");
         init();
     }
 

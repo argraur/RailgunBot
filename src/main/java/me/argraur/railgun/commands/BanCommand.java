@@ -16,23 +16,16 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
+import static me.argraur.railgun.RailgunBot.giphyHelper;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class BanCommand implements RailgunOrder {
-    private String banCommand = RailgunBot.COMMAND_PREFIX + "ban";
-    private MessageChannel messageChannel;
-    private Message msg;
-
-    public BanCommand (MessageChannel messageChannel, Message msg) {
-        this.messageChannel = messageChannel;
-        this.msg = msg;
-    }
+    private String banCommand = "ban";
 
     @Override
     public StringBuilder getHelp() {
@@ -47,19 +40,15 @@ public class BanCommand implements RailgunOrder {
     }
 
     @Override
-    public String getOutput(String args) {
-        return null;
-    }
-
-    @Override
-    public void call(String args) {
-        if (msg.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-            msg.getGuild().ban(msg.getMentionedMembers().get(0), 0).queue();
+    public void call(Message message) {
+        String args = message.getContentRaw();
+        if (message.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+            message.getGuild().ban(message.getMentionedMembers().get(0), 0).queue();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("BAN!");
             embedBuilder.setDescription("Sayounara, mou kunaide kudasai " + args.split(" ")[1] + "!");
-            embedBuilder.setImage(RailgunBot.giphyHelper.searchRandomGif("ban"));
-            messageChannel.sendMessage(embedBuilder.build()).queue();
+            embedBuilder.setImage(giphyHelper.searchRandomGif("ban"));
+            message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }
 }

@@ -33,6 +33,7 @@ public class GiphyHelper {
      */
     public GiphyHelper(String token) {
         this.token = token;
+        System.out.println("GiphyReader is ready!");
     }
 
     /**

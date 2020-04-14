@@ -16,17 +16,12 @@
 
 package me.argraur.railgun.interfaces;
 
+import net.dv8tion.jda.api.entities.Message;
+
 /**
  * Universal Interface for all Railgun commands
  */
 public interface RailgunOrder {
-    /**
-     *
-     * @param args Message without command
-     * @return Returns command result to call(String args) after parsing args
-     */
-    String getOutput(String args);
-
     /**
      *
      * @return Returns command name String
@@ -41,7 +36,7 @@ public interface RailgunOrder {
 
     /**
      *
-     * @param args Message with command
+     * @param args Message
      */
-    void call(String args);
+    void call(Message message);
 }

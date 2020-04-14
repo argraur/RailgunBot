@@ -20,16 +20,13 @@ import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
 import java.util.Random;
 
 public class SlapCommand implements RailgunOrder {
-    private MessageChannel messageChannel;
-    private Message msg;
     private Random rnd = new Random();
-    private String slapCommand = ">slap";
+    private String slapCommand = "slap";
     private String[] urlArr = {
             "https://cdn.discordapp.com/attachments/356835182818623489/699024624121282661/Slap_9.gif",
             "https://media.discordapp.net/attachments/698965374317625345/699023483266662461/Slap_1.gif",
@@ -40,25 +37,16 @@ public class SlapCommand implements RailgunOrder {
             "https://media.tenor.com/images/d63b9fcb5b77728c29427d27f142b096/tenor.gif",
             "https://media1.tenor.com/images/047e78a99ba8c1ea4bfa6237d9f484aa/tenor.gif?itemid=8065158"
     };
-    public SlapCommand(MessageChannel messageChannel, Message msg) {
-        this.messageChannel = messageChannel;
-        this.msg = msg;
-    }
 
     @Override
-    public void call(String args) {
+    public void call(Message message) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("SLAP!");
-        embedBuilder.setDescription("<@" + msg.getAuthor().getId() + ">" + " slaps " + args.split(" ")[1] + "!");
+        embedBuilder.setDescription("<@" + message.getAuthor().getId() + ">" + " slaps " + message.getContentRaw().split(" ")[1] + "!");
         embedBuilder.setImage(urlArr[rnd.nextInt(8)]);
         embedBuilder.setColor(Color.PINK);
-        msg.delete().queue();
-        messageChannel.sendMessage(embedBuilder.build()).queue();
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return null;
+        message.delete().queue();
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 
     @Override

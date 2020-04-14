@@ -21,17 +21,10 @@ import java.awt.Color;
 import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
-
-import static java.lang.Math.pow;
+import net.dv8tion.jda.api.entities.Message;
 
 public class CalcCommand implements RailgunOrder {
-    private String calcCommand = RailgunBot.COMMAND_PREFIX + "calc";
-    private MessageChannel messageChannel;
-
-    public CalcCommand(MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
-    }
+    private String calcCommand = "calc";
 
     @Override
     public String getCommand() {
@@ -39,8 +32,9 @@ public class CalcCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        String[] arr = args.replace(calcCommand + " ", "").toString().split(" ");
+    public void call(Message message) {
+        String args = message.getContentRaw();
+        String[] arr = args.replace(RailgunBot.COMMAND_PREFIX + calcCommand + " ", "").toString().split(" ");
         float tmp = Float.parseFloat(arr[0]); float result = 0;
         for (int i = 1; i < arr.length; i++) {
             try {
@@ -66,14 +60,9 @@ public class CalcCommand implements RailgunOrder {
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.PINK);
-        embedBuilder.setTitle(args.replace(calcCommand + " ", ""));
+        embedBuilder.setTitle(args.replace(RailgunBot.COMMAND_PREFIX + calcCommand + " ", ""));
         embedBuilder.setDescription("**Result: " + String.valueOf(result) + "**");
-        messageChannel.sendMessage(embedBuilder.build()).queue();
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return null;
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 
     @Override

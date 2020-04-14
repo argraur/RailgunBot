@@ -16,26 +16,15 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.helpers.IgnoreHelper;
+import static me.argraur.railgun.RailgunBot.ignoreHelper;
 import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.entities.Message;
 
 public class IgnoreCommand implements RailgunOrder {
-    private String ignoreCommand = RailgunBot.COMMAND_PREFIX + "ignore";
-    public String senpaiId = "356723086009171969";
-    public IgnoreHelper ignoreHelper;
+    private String ignoreCommand = "ignore";
+    public static String senpaiId = "356723086009171969";
     public Message msg;
-
-    public IgnoreCommand(IgnoreHelper ignoreHelper, Message msg) {
-        this.ignoreHelper = ignoreHelper;
-        this.msg = msg;
-    }
-
-    @Override
-    public String getOutput(String args) {
-        return null;
-    }
 
     @Override
     public StringBuilder getHelp() {
@@ -45,9 +34,9 @@ public class IgnoreCommand implements RailgunOrder {
     }
 
     @Override
-    public void call(String args) {
-        if (msg.getAuthor().getId().equals(senpaiId) && !msg.getMentionedUsers().get(0).getId().equals(senpaiId)) {
-            ignoreHelper.addIgnored(msg.getMentionedUsers().get(0).getId(), msg);
+    public void call(Message message) {
+        if (message.getAuthor().getId().equals(senpaiId) && !message.getMentionedUsers().get(0).getId().equals(senpaiId)) {
+            ignoreHelper.addIgnored(message.getMentionedUsers().get(0).getId(), message);
         }
     }
 

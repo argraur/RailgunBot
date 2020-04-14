@@ -16,23 +16,16 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
+import static me.argraur.railgun.RailgunBot.giphyHelper;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class KickCommand implements RailgunOrder {
-    private String kickCommand = RailgunBot.COMMAND_PREFIX + "kick";
-    private MessageChannel messageChannel;
-    private Message msg;
-
-    public KickCommand (MessageChannel messageChannel, Message msg) {
-        this.messageChannel = messageChannel;
-        this.msg = msg;
-    }
+    private String kickCommand = "kick";
 
     @Override
     public StringBuilder getHelp() {
@@ -47,19 +40,14 @@ public class KickCommand implements RailgunOrder {
     }
 
     @Override
-    public String getOutput(String args) {
-        return null;
-    }
-
-    @Override
-    public void call(String args) {
-        if (msg.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            msg.getGuild().kick(msg.getMentionedMembers().get(0)).queue();
+    public void call(Message message) {
+        if (message.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+            message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("KICK!");
-            embedBuilder.setDescription("Sayounara " + args.split(" ")[1] + "!");
-            embedBuilder.setImage(RailgunBot.giphyHelper.searchRandomGif("kick"));
-            messageChannel.sendMessage(embedBuilder.build()).queue();
+            embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
+            embedBuilder.setImage(giphyHelper.searchRandomGif("kick"));
+            message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }
 }
