@@ -16,5 +16,7 @@ dependencies {
     compile "net.dv8tion:JDA:4.1.1_101"
     compile group: 'org.json', name: 'json', version: '20190722'
     compile 'at.mukprojects:giphy4j:1.0.1'
+    compile 'ch.qos.logback:logback-classic:1.2.0'
+    compile 'ch.qos.logback:logback-core:1.2.0'
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
 }
