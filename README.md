@@ -45,6 +45,7 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `command_prefix`: Prefix for all commands received by a bot (default is '>')
 
+`activity`: Set bot activity (e.g. `anime games`)
 ## Commands
 
 ### Available commands at the moment:
