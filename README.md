@@ -28,7 +28,8 @@ cd RailgunBot; ./gradlew build
 ```
 
 Windows:
-```cd RailgunBot\
+```
+cd RailgunBot\
 .\gradlew.bat build
 ```
 
@@ -79,9 +80,19 @@ Configurations are located in `src/main/resources/config.properties` file.
 * [Giphy4J](https://github.com/keshrath/Giphy4J) - Java wrapper for Giphy
 * [OkHttp](https://github.com/square/okhttp) - HTTP client for Java
 
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
 ## Authors
 
 * **Arseniy Graur** - *Project creator* - [argraur](https://github.com/argraur)
+
+See also the list of [contributors](https://github.com/argraur/RailgunBot/contributors) who participated in this project.
 
 ## License
 
