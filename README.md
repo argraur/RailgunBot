@@ -12,7 +12,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Java Development Kit 11 or above.
+* Java Development Kit 8 - 11.
 
 ### Cloning
 
