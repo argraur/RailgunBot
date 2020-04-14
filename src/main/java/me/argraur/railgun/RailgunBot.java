@@ -17,6 +17,7 @@
 package me.argraur.railgun;
 
 import me.argraur.railgun.apis.KitsuAPI;
+import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.handlers.CommandHandler;
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
@@ -49,6 +50,7 @@ public class RailgunBot {
 
     // Define additional API classes
     public static KitsuAPI kitsuApi;
+    public static UrbanDictionaryAPI urbanDictionaryApi;
 
     /**
      * Sets command prefix by reading from config.
@@ -102,6 +104,7 @@ public class RailgunBot {
             giphyHelper = new GiphyHelper(readConfig("giphy"));
             commandHandler = new CommandHandler();
             kitsuApi = new KitsuAPI();
+            urbanDictionaryApi = new UrbanDictionaryAPI();
         } catch (IOException e) {
             error();
         }
