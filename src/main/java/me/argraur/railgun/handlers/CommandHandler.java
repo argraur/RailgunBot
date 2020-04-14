@@ -18,16 +18,15 @@ package me.argraur.railgun.handlers;
 
 import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
 
-import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.commands.*;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.entities.Message;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CommandHandler {
-    private HashMap<String, RailgunOrder> commandsMap = new HashMap<>();
+    private LinkedHashMap<String, RailgunOrder> commandsMap = new LinkedHashMap<>();
 
     /**
      * Registers the command in handler.
@@ -51,22 +50,25 @@ public class CommandHandler {
      * @param messageChannel Registers commands.
      */
     public CommandHandler() {
-        registerCommand(new PingCommand());
-        registerCommand(new OCommand());
-        registerCommand(new KitsuCommand());
-        registerCommand(new UDCommand());
-        registerCommand(new SlapCommand());
-        registerCommand(new HugCommand());
-        registerCommand(new GifCommand());
-        registerCommand(new IgnoreCommand());
-        registerCommand(new PardonCommand());
-        registerCommand(new MockCommand());
-        registerCommand(new CalcCommand());
-        registerCommand(new KickCommand());
         registerCommand(new BanCommand());
+        registerCommand(new CalcCommand());
+        registerCommand(new ColorCommand());
+        registerCommand(new DeleteCommand());
+        registerCommand(new GifCommand());
+        registerCommand(new HugCommand());
+        registerCommand(new IgnoreCommand());
+        registerCommand(new KickCommand());
+        registerCommand(new KitsuCommand());
+        registerCommand(new MockCommand());
+        registerCommand(new OCommand());
+        registerCommand(new PardonCommand());
+        registerCommand(new PingCommand());
+        registerCommand(new SauceCommand());
+        registerCommand(new SlapCommand());
+        registerCommand(new UDCommand());
+        registerCommand(new WaitCommand());
         registerCommand(new HelpCommand(commandsMap));
         System.out.println("CommandHandler is ready!");
-        //registerCommand(new HelpCommand());
     }
 
     /**

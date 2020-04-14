@@ -22,7 +22,7 @@ import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
-import static java.awt.Color.PINK;
+import java.awt.Color;
 
 public class GifCommand implements RailgunOrder {
     private String gifCommand = "gif";
@@ -44,14 +44,20 @@ public class GifCommand implements RailgunOrder {
     public void call(Message message) {
         String temp = message.getContentRaw().replaceAll(gifCommand + " ", "");
         EmbedBuilder embedBuilder = new EmbedBuilder();
+        String url = "";
         if (!message.getMentionedMembers().isEmpty()) {
             embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
             temp.replaceAll(" <@" + message.getMentionedMembers().get(0).getId() + ">", "");
         }
         try {
-            embedBuilder.setImage(RailgunBot.giphyHelper.searchRandomGif(temp));
+            url = RailgunBot.giphyHelper.searchRandomGif(temp);
+            embedBuilder.setImage(url);
         } catch (IllegalStateException e) { return; }
-        embedBuilder.setColor(PINK);
+        try {
+            embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(url)));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            embedBuilder.setColor(Color.PINK);
+        }
         message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

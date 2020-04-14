@@ -24,14 +24,14 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class HelpCommand implements RailgunOrder {
-    private HashMap<String, RailgunOrder> commands;
+    private LinkedHashMap<String, RailgunOrder> commands;
     private String helpCommand = "help";
     private String helpHelp = helpCommand + " - returns bot help";
 
-    public HelpCommand(HashMap<String, RailgunOrder> commands) {
+    public HelpCommand(LinkedHashMap<String, RailgunOrder> commands) {
         this.commands = commands;
     }
 

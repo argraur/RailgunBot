@@ -17,8 +17,11 @@
 package me.argraur.railgun;
 
 import me.argraur.railgun.apis.KitsuAPI;
+import me.argraur.railgun.apis.SauceNAOAPI;
+import me.argraur.railgun.apis.TraceMoeAPI;
 import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.handlers.CommandHandler;
+import me.argraur.railgun.helpers.ColorHelper;
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
 import me.argraur.railgun.helpers.GiphyHelper;
@@ -43,6 +46,7 @@ public class RailgunBot {
     public static ConfigReader configReader;
     public static IgnoreHelper ignoreHelper;
     public static GiphyHelper giphyHelper;
+    public static ColorHelper colorHelper;
 
     // Define main command handlers
     public static MessageListener messageListener;
@@ -51,6 +55,8 @@ public class RailgunBot {
     // Define additional API classes
     public static KitsuAPI kitsuApi;
     public static UrbanDictionaryAPI urbanDictionaryApi;
+    public static SauceNAOAPI sauceNAOApi;
+    public static TraceMoeAPI traceMoeApi;
 
     /**
      * Sets command prefix by reading from config.
@@ -102,9 +108,12 @@ public class RailgunBot {
             configReader = new ConfigReader();
             ignoreHelper = new IgnoreHelper();
             giphyHelper = new GiphyHelper(readConfig("giphy"));
+            colorHelper = new ColorHelper();
             commandHandler = new CommandHandler();
             kitsuApi = new KitsuAPI();
             urbanDictionaryApi = new UrbanDictionaryAPI();
+            sauceNAOApi = new SauceNAOAPI();
+            traceMoeApi = new TraceMoeAPI();
         } catch (IOException e) {
             error();
         }

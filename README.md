@@ -51,31 +51,41 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 ### Available commands at the moment:
 
-`>ping` - Pong!
+`>ban <mention>` - Bans mentioned user (Ban permission required, for a bot and command issuer)
 
-`>long` - loooooooooooooooooong
+`>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
+
+`>color [attach image or url]` - Gets dominating color out of given image.
+
+`>del [message link]` - Delete given message. (Message manage permission required, for a bot and command issuer)
+
+`>gif <query> [mention]` - Search gif for a given query
+
+`>hug <mention>` - Hugs the mentioned user!
+
+`>ignore <mention>` - Ignores given user.
+
+`>kick <mention>` - Kicks mentioned user. (Kick permission required, for a bot and command issuer)
 
 `>kitsu genre <genre>` - Sends random anime of a given genre.
 
 `>kitsu search <query>` - Searches anime by given query.
 
-`>slap <mention>` - SLAP THAT LOSER!
+`>mock` - mockS GiveN mESsAge
 
-`>hug <mention>` - Hugs the mentioned user!
-
-`>gif <query> [mention]` - Search gif for a given query
-
-`>ignore <mention>` - Ignores given user.
+`>long` - loooooooooooooooooong
 
 `>pardon <mention>` - Stops ignoring given user.
 
-`>mock` -  Mocks GIven mEssAGe
+`>ping` - Pong!
 
-`>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
+`>sauce [attach image or pass url]` - Searches for art sauce
 
-`>kick <mention>` - Kicks mentioned user
+`>slap <mention>` - SLAP THAT LOSER!
 
-`>ban <mention>` - Bans mentioned user
+`>ud <word or expression>` - Search for given word or expression on UrbanDictionary
+
+`>wait [attached image]` - WAIT: What Anime Is This? Searches for anime using given screenshot from anime!
 
 `>help` - returns bot help
 
@@ -85,6 +95,10 @@ Configurations are located in `src/main/resources/config.properties` file.
 * [JDA](https://github.com/DV8FromTheWorld/JDA) - Java wrapper for Discord
 * [Giphy4J](https://github.com/keshrath/Giphy4J) - Java wrapper for Giphy
 * [OkHttp](https://github.com/square/okhttp) - HTTP client for Java
+* [ColorThief](https://github.com/SvenWoltmann/color-thief-java) - Dominant color extractor for Java
+* [Kitsu](https://kitsu.io) - Anime exploring site
+* [SauceNAO](https://saucenao.com) - Anime art reverse image search engine
+* [trace.moe](https://trace.moe) - Search engine that helps tracing back the original anime by screenshot.
 
 ## Contributing
 

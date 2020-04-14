@@ -31,6 +31,8 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import me.argraur.railgun.RailgunBot;
+
 public class KitsuAPI {
     private OkHttpClient okHttpClient;
     private String url = "https://kitsu.io/api/edge";
@@ -220,7 +222,7 @@ public class KitsuAPI {
         String ytUrl = getYTUrl(animeObject);
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.pink);
+        embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(getImage(animeObject))));
         embedBuilder.setTitle(getEnglishTitle(animeObject), getKitsuUrl(animeObject));
         String description = "\n\n" + bold(getSource(animeObject) + " // Status: " + status.replace(Character.toString(status.charAt(0)), Character.toString(status.charAt(0)).toUpperCase()) + " // Rating: " + getRating(animeObject)) + "\n";
         if (!genres.equals("Genres: "))

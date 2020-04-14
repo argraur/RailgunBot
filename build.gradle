@@ -10,7 +10,7 @@ jar {
 }
 
 group 'me.argraur'
-version '0.1.0-alpha'
+version '0.2.0-alpha'
 
 repositories {
     mavenCentral()
@@ -25,5 +25,6 @@ dependencies {
     compile 'at.mukprojects:giphy4j:1.0.1'
     compile 'ch.qos.logback:logback-classic:1.2.0'
     compile 'ch.qos.logback:logback-core:1.2.0'
+    compile 'de.androidpit:color-thief:1.1.2'
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
 }
