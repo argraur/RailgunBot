@@ -16,15 +16,14 @@
 
 package me.argraur.railgun.commands;
 
+import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
 import static me.argraur.railgun.RailgunBot.kitsuApi;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class KitsuCommand implements RailgunOrder {
-    private MessageChannel messageChannel;
-
     private String kitsuCommand = "kitsu";
 
     @Override
@@ -43,13 +42,13 @@ public class KitsuCommand implements RailgunOrder {
     @Override
     public void call(Message message) {
         String temp = message.getContentRaw();
-        temp = temp.substring((getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
+        temp = temp.substring((COMMAND_PREFIX + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
         switch (message.getContentRaw().split(" ")[1]) {
             case "genre":
-                messageChannel.sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
+                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
                 break;
             case "search":
-                messageChannel.sendMessage(kitsuApi.toEmbed(kitsuApi.searchByQuery(temp))).queue();
+                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchByQuery(temp))).queue();
             default: break;
         }
     }
