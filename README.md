@@ -1,4 +1,4 @@
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 ![Java CI with Gradle](https://github.com/argraur/RailgunBot/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
 # Misaka-chan Discord Bot
@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Java Development Kit 11 or above.
+* Java Development Kit 11 or above.
 
 ### Cloning
 
@@ -77,6 +77,10 @@ Configurations are located in `src/main/resources/config.properties` file.
 * [JDA](https://github.com/DV8FromTheWorld/JDA) - Java wrapper for Discord
 * [Giphy4J](https://github.com/keshrath/Giphy4J) - Java wrapper for Giphy
 * [OkHttp](https://github.com/square/okhttp) - HTTP client for Java
+
+## Authors
+
+* **Arseniy Graur** - *Project creator* - [argraur](https://github.com/argraur)
 
 ## License
 
