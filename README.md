@@ -51,6 +51,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 ### Available commands at the moment:
 
+`>8ball <question>` - Get answers to all of your yes/no questions!
+
 `>ban <mention>` - Bans mentioned user (Ban permission required, for a bot and command issuer)
 
 `>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)

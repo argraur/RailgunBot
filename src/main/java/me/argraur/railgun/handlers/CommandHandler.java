@@ -34,7 +34,7 @@ public class CommandHandler {
      */
     void registerCommand(RailgunOrder command) {
         commandsMap.put(command.getCommand(), command);
-        System.out.println("CommandHandler: Registered command " + command.getCommand());
+        System.out.println("CommandHandler: Loaded command " + command.getCommand());
     }
 
     /**
@@ -50,6 +50,7 @@ public class CommandHandler {
      * @param messageChannel Registers commands.
      */
     public CommandHandler() {
+        registerCommand(new BallCommand());
         registerCommand(new BanCommand());
         registerCommand(new CalcCommand());
         registerCommand(new CoinFlipCommand());
