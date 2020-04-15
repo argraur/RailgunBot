@@ -55,6 +55,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
 
+`>coin` - Flip a coin!
+
 `>color [attach image or url]` - Gets dominating color out of given image.
 
 `>del [message link]` - Delete given message. (Message manage permission required, for a bot and command issuer)

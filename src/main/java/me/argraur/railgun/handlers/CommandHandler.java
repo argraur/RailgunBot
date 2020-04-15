@@ -52,6 +52,7 @@ public class CommandHandler {
     public CommandHandler() {
         registerCommand(new BanCommand());
         registerCommand(new CalcCommand());
+        registerCommand(new CoinFlipCommand());
         registerCommand(new ColorCommand());
         registerCommand(new DeleteCommand());
         registerCommand(new GifCommand());
