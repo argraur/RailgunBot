@@ -23,8 +23,9 @@ import java.util.Random;
 
 public class OCommand implements RailgunOrder {
     private String oCommand = "long";
-    private String oHelp = oCommand + " - loooooooooooooooooong";
     private Random random = new Random();
+    private String usage = oCommand + " <message>";
+    private String description = "Make your message looooooooooonger";
 
     @Override
     public void call(Message message) {
@@ -57,9 +58,12 @@ public class OCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(oHelp);
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

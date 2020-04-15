@@ -32,7 +32,13 @@ public interface RailgunOrder {
      *
      * @return Returns StringBuilder with help
      */
-    StringBuilder getHelp();
+    String getUsage();
+
+    /**
+     * 
+     * @return Returns String with description.
+     */
+    String getDescription();
 
     /**
      *

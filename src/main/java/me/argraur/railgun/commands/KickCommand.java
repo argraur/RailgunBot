@@ -26,12 +26,17 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class KickCommand implements RailgunOrder {
     private String kickCommand = "kick";
+    private String usage = kickCommand + " <@user>";
+    private String description = "Kick `<@user>` from server";
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(kickCommand).append(" <mention> - Kicks mentioned user");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

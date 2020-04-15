@@ -26,6 +26,8 @@ import static java.awt.Color.PINK;
 
 public class HugCommand implements RailgunOrder {
     private String hugCommand = "hug";
+    private String usage = hugCommand + " <@user>";
+    private String description = "Hug a `<@user>` <3";
 
     @Override
     public String getCommand() {
@@ -33,11 +35,13 @@ public class HugCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(hugCommand);
-        stringBuilder.append(" <mention> - Hugs the mentioned user!");
-        return stringBuilder;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

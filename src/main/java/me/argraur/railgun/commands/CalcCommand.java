@@ -25,6 +25,8 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class CalcCommand implements RailgunOrder {
     private String calcCommand = "calc";
+    private String description = "Simple calculator.";
+    private String usage = calcCommand + " <expression> (e.g " + calcCommand + " 2 * 2 * 2 (with spaces)";
 
     @Override
     public String getCommand() {
@@ -66,9 +68,12 @@ public class CalcCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(calcCommand).append(" - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

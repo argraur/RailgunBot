@@ -29,7 +29,8 @@ import java.util.LinkedHashMap;
 public class HelpCommand implements RailgunOrder {
     private LinkedHashMap<String, RailgunOrder> commands;
     private String helpCommand = "help";
-    private String helpHelp = helpCommand + " - returns bot help";
+    private String usage = helpCommand;
+    private String description = "Bot usage help!";
 
     public HelpCommand(LinkedHashMap<String, RailgunOrder> commands) {
         this.commands = commands;
@@ -39,9 +40,9 @@ public class HelpCommand implements RailgunOrder {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.pink);
         embedBuilder.setTitle("Misaka-chan!");
-        embedBuilder.setDescription("I can't do many fancy stuff. BUT! Here is what I can do *currently*!" + getCommandsHelp());
+        embedBuilder.setDescription("I can't do many fancy stuff. BUT! Here is what I can do *currently*!\n\n" + getCommandsHelp());
         String misakaPic = "https://media.discordapp.net/attachments/698965374317625345/699022743542169691/oof.jpg?width=799&height=677";
-        embedBuilder.setImage(misakaPic);
+        embedBuilder.setThumbnail(misakaPic);
         return embedBuilder.build();
     }
 
@@ -52,12 +53,13 @@ public class HelpCommand implements RailgunOrder {
 
     public String getCommandsHelp() {
         StringBuilder output = new StringBuilder();
-        output.append("```");
         for (RailgunOrder command : commands.values()) {
-            output.append(RailgunBot.COMMAND_PREFIX + command.getHelp());
+            output.append("```fix\n" + RailgunBot.COMMAND_PREFIX + command.getCommand() + "\n```");
+            output.append("**Description:** *" + command.getDescription() + "*\n");
+            output.append("**Usage:** `" + RailgunBot.COMMAND_PREFIX + command.getUsage() + "`");
             output.append("\n\n");
         }
-        output.append("```");
+        output.append("Current command prefix: `" + RailgunBot.COMMAND_PREFIX + "`");
         return output.toString();
     }
 
@@ -67,9 +69,12 @@ public class HelpCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sbHelp = new StringBuilder();
-        sbHelp.append(helpHelp);
-        return sbHelp;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

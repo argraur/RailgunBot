@@ -26,6 +26,8 @@ import java.awt.Color;
 
 public class GifCommand implements RailgunOrder {
     private String gifCommand = "gif";
+    private String usage = gifCommand + " <query> [<@user>]";
+    private String description = "Send GIF for a given query, address to `<@user>` if mentioned";
 
     @Override
     public String getCommand() {
@@ -33,11 +35,13 @@ public class GifCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(gifCommand);
-        stringBuilder.append(" <query> [mention] - Search gif for a given query");
-        return stringBuilder;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

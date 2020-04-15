@@ -22,6 +22,8 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class WaitCommand implements RailgunOrder {
     private String waitCommand = "wait";
+    private String usage = waitCommand + " <url to image> OR attach image";
+    private String description = "What Anime Is This? Find anime with just a screenshot!";
 
     @Override
     public String getCommand() {
@@ -29,10 +31,13 @@ public class WaitCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(waitCommand).append(" [attached image] - WAIT: What Anime Is This? Searches for anime using given screenshot from anime!");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

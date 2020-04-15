@@ -6,7 +6,9 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class DeleteCommand implements RailgunOrder {
     private String deleteCommand = "del";
-
+    private String usage = deleteCommand + " <message link>";
+    private String description = "Delete given message";
+    
     @Override
     public void call(Message message) {
         String id = message.getContentRaw().split(" ")[1].split("/")[6];
@@ -23,9 +25,12 @@ public class DeleteCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(deleteCommand).append(" [message link] - Delete given message");
-        return stringBuilder;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

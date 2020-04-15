@@ -22,7 +22,9 @@ import net.dv8tion.jda.api.entities.Message;
 public class ExampleCommand implements RailgunOrder {
     // @param String, command name
     private String exampleCommand = "example";
-
+    private String usage = "";
+    private String description = "";
+    
     /**
      * Returns command name (used by CommandHandler)
      * @return command name
@@ -39,14 +41,13 @@ public class ExampleCommand implements RailgunOrder {
     @Override
     public void call(Message message) {}
 
-    /**
-     * Used by HelpCommand to create the help embed message.
-     * @return StringBuilder containing help for this command.
-     */
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(exampleCommand).append(" - Example command.");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

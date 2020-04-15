@@ -26,6 +26,8 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class MockCommand implements RailgunOrder {
     private String command = "mock";
+    private String usage = command + " <message>";
+    private String description = getOutput("Mock the message!", false);
 
     @Override
     public String getCommand() {
@@ -34,10 +36,10 @@ public class MockCommand implements RailgunOrder {
 
     @Override
     public void call(Message message) {
-        message.getChannel().sendMessage(getOutput(message.getContentRaw())).queue();
+        message.getChannel().sendMessage(getOutput(message.getContentRaw(), true)).queue();
     }
 
-    public String getOutput(String args) {
+    public String getOutput(String args, boolean replace) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < args.split("").length; i++) {
             if (new Random().nextInt(20) % 2 == 0) {
@@ -46,14 +48,17 @@ public class MockCommand implements RailgunOrder {
                 result.append(args.split("")[i]);
             }
         }
-        result.replace(0, (COMMAND_PREFIX + command).length(), "");
+        if (replace) result.replace(0, (COMMAND_PREFIX + command).length(), "");
         return result.toString();
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(command).append(" - " + getOutput(command + " mocks given message"));
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

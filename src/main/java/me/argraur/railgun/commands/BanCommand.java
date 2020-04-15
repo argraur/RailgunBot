@@ -26,12 +26,17 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class BanCommand implements RailgunOrder {
     private String banCommand = "ban";
+    private String usage = banCommand + " <@user>";
+    private String description = "Bans mentioned user.";
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(banCommand).append(" <mention> - Bans mentioned user");
-        return sb;
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getUsage() {
+        return usage;
     }
 
     @Override

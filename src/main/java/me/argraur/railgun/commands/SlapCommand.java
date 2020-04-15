@@ -37,6 +37,8 @@ public class SlapCommand implements RailgunOrder {
             "https://media.tenor.com/images/d63b9fcb5b77728c29427d27f142b096/tenor.gif",
             "https://media1.tenor.com/images/047e78a99ba8c1ea4bfa6237d9f484aa/tenor.gif?itemid=8065158"
     };
+    private String usage = slapCommand + " <@user>";
+    private String description = "Slap a user!";
 
     @Override
     public void call(Message message) {
@@ -55,9 +57,12 @@ public class SlapCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getCommand() + " <mention> - SLAP THAT LOSER!");
-        return stringBuilder;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

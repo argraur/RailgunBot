@@ -25,6 +25,8 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class PardonCommand implements RailgunOrder {
     private String pardonCommand = "pardon";
+    private String usage = pardonCommand + " <@user>";
+    private String description = "Allow previously ignored `<@user>` to use bot.";
 
     @Override
     public String getCommand() {
@@ -39,9 +41,12 @@ public class PardonCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(pardonCommand).append(" <mention> - Stops ignoring given user.");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

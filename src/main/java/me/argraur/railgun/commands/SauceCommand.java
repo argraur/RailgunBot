@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class SauceCommand implements RailgunOrder {
     private String sauceCommand = "sauce";
+    private String usage = sauceCommand + " <url to image> OR attach image";
+    private String description = "Search for source of given anime art!";
 
     @Override
     public String getCommand() {
@@ -15,10 +17,13 @@ public class SauceCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(sauceCommand).append(" [attach image] - Searches for art sauce");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

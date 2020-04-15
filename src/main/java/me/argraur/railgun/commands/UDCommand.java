@@ -7,7 +7,9 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class UDCommand implements RailgunOrder {
     private String udCommand = "ud";
-
+    private String usage = udCommand + " <query>";
+    private String description = "Search <query> on Urban Dictionary";
+    
     @Override
     public String getCommand() {
         return udCommand;
@@ -21,9 +23,12 @@ public class UDCommand implements RailgunOrder {
     }
     
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(udCommand).append(" <word or expression> - Search for given word or expression on UrbanDictionary");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

@@ -16,17 +16,26 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import java.awt.Color;
 
+import me.argraur.railgun.interfaces.RailgunOrder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
 public class PingCommand implements RailgunOrder {
     private final String pingCommand = "ping";
-    private final String pingHelp = pingCommand + " - Pong!";
+    private String usage = pingCommand;
+    private String description = "Pong!";
 
     @Override
     public void call(Message message) {
-        message.getChannel().sendMessage("Pong!").queue();
+        long time = System.currentTimeMillis();
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle(description);
+        embedBuilder.setColor(Color.pink);
+        message.getChannel().sendMessage(embedBuilder.build()).queue((response) -> {
+            response.editMessage(new EmbedBuilder(response.getEmbeds().get(0)).setTitle(description + " " + (System.currentTimeMillis() - time) + " ms").build()).queue();
+        });
     }
 
     @Override
@@ -35,9 +44,12 @@ public class PingCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(pingHelp);
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

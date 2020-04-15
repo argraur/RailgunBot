@@ -25,6 +25,8 @@ import net.dv8tion.jda.api.entities.Message;
 
 public class KitsuCommand implements RailgunOrder {
     private String kitsuCommand = "kitsu";
+    private String usage = kitsuCommand + " genre/search <genre>/<query>";
+    private String description = "Search anime by query or genre!";
 
     @Override
     public String getCommand() {
@@ -32,11 +34,13 @@ public class KitsuCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(kitsuCommand).append(" genre <genre> - Sends random anime of a given genre.").append("\n");
-        stringBuilder.append(kitsuCommand).append(" search <query> - Searches anime by given query.");
-        return stringBuilder;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

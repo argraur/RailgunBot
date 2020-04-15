@@ -25,12 +25,17 @@ public class IgnoreCommand implements RailgunOrder {
     private String ignoreCommand = "ignore";
     public static String senpaiId = "356723086009171969";
     public Message msg;
+    private String usage = ignoreCommand + " <@user>";
+    private String description = "Disallow `<@user>` to use the bot";
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(ignoreCommand).append(" <mention> - Ignores given user.");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

@@ -26,6 +26,8 @@ import java.awt.Color;
 
 public class ColorCommand implements RailgunOrder {
     private String colorCommand = "color";
+    private String usage = colorCommand + " <url to image> OR attach image";
+    private String description = "Get dominant color out of an image";
 
     @Override
     public void call(Message message) {
@@ -50,9 +52,12 @@ public class ColorCommand implements RailgunOrder {
     }
 
     @Override
-    public StringBuilder getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(colorCommand).append(" [attach image or url] - Gets dominating color out of given image.");
-        return sb;
+    public String getUsage() {
+        return usage;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

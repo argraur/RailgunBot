@@ -80,6 +80,7 @@ public class TraceMoeAPI {
         try {
             response = new JSONObject(getResponseJSON(baseUrl + imageUrl));
         } catch (JSONException e) {
+            message.getChannel().sendMessage("Request failed.").queue();
             throw new IllegalStateException();
         }
         return response.getJSONArray("docs").getJSONObject(0);
