@@ -63,6 +63,7 @@ public class RailgunBot {
      */
     private static void setCommandPrefix() {
         COMMAND_PREFIX = readConfig("command_prefix");
+        System.out.println("Set command prefix to: " + COMMAND_PREFIX);
     }
 
     /**
@@ -106,6 +107,7 @@ public class RailgunBot {
     public static void init() {
         try {
             configReader = new ConfigReader();
+            setCommandPrefix();
             ignoreHelper = new IgnoreHelper();
             giphyHelper = new GiphyHelper(readConfig("giphy"));
             colorHelper = new ColorHelper();
@@ -117,7 +119,6 @@ public class RailgunBot {
         } catch (IOException e) {
             error();
         }
-        setCommandPrefix();
         new RailgunBot();
     }
 
@@ -135,10 +136,6 @@ public class RailgunBot {
      */
     public static void error() {
         System.exit(1);
-    }
-
-    public static IgnoreHelper getIgnoreHelper() {
-        return ignoreHelper;
     }
 
     public static HashMap<String, String> getChannels() {

@@ -18,7 +18,7 @@ package me.argraur.railgun.listeners;
 
 import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
 import static me.argraur.railgun.RailgunBot.commandHandler;
-import static me.argraur.railgun.RailgunBot.getIgnoreHelper;
+import static me.argraur.railgun.RailgunBot.ignoreHelper;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -38,7 +38,7 @@ public class MessageListener extends ListenerAdapter {
         if (!msgStr.startsWith(COMMAND_PREFIX))
             return;
         System.out.println("[VERBOSE] MessageReceived: " + msgStr);
-        if (commandHandler.checkIfCommandExists(msgStr.split(" ")[0]) && !getIgnoreHelper().checkIfIgnored(msg)) {
+        if (commandHandler.checkIfCommandExists(msgStr.split(" ")[0]) && !ignoreHelper.checkIfIgnored(msg)) {
             commandHandler.onCommandReceived(msgStr, msg);
         } else {
             System.out.println("[VERBOSE] Command doesn't exist!");
