@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.ImageHelper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -66,18 +67,33 @@ public class SauceNAOAPI {
         return null;
     }
 
+    public static String getAuthor(JSONObject result) {
+        return result.getJSONObject("data").getString("member_name");
+    }
+
+    public static String getSimilarity(JSONObject result) {
+        return result.getJSONObject("header").getString("similarity");
+    }
+    
+    public static String getThumbnail(JSONObject result) {
+        return result.getJSONObject("header").getString("thumbnail");
+    }
+
+    public static String getTitle(JSONObject result) {
+        return result.getJSONObject("data").getString("title");
+    }
+
+    public static String getExtUrl(JSONObject result, int index) {
+        return result.getJSONObject("data").getJSONArray("ext_urls").getString(index);
+    }
+
     /**
      * Search image on SauceNAO
      * @param msg Message bbject from MessageListener
      * @return JSON object from SauceNAO with a result
      */
     public JSONObject search(Message msg) {
-        String imageUrl = "";
-        try {
-            imageUrl = msg.getAttachments().get(0).getUrl();
-        } catch (IndexOutOfBoundsException e) {
-            imageUrl = msg.getContentRaw().split(" ")[1];
-        }
+        String imageUrl = ImageHelper.getImageUrl(msg);
         StringBuilder url = new StringBuilder(this.url);
         url.append("db=" + db);
         url.append("&output_type=" + outputType);
@@ -108,18 +124,18 @@ public class SauceNAOAPI {
     public MessageEmbed toEmbed(JSONObject result) {
         if (result != null) {
             EmbedBuilder sauce = new EmbedBuilder();
-            sauce.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(result.getJSONObject("header").getString("thumbnail"))));
+            sauce.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(getThumbnail(result))));
             try {
-                sauce.setAuthor("Authored by: " + result.getJSONObject("data").getString("member_name"));
+                sauce.setAuthor("Authored by: " + getAuthor(result));
             } catch (JSONException e) {
                 sauce.setAuthor("Authored by: N/A");
             }
-            sauce.setDescription("*Similarity* **" + result.getJSONObject("header").getString("similarity") + "%**");
-            sauce.setImage(result.getJSONObject("header").getString("thumbnail"));
+            sauce.setDescription("*Similarity* **" + getSimilarity(result) + "%**");
+            sauce.setImage(getThumbnail(result));
             try {
-                sauce.setTitle(result.getJSONObject("data").getString("title"), result.getJSONObject("data").getJSONArray("ext_urls").getString(0));
+                sauce.setTitle(getTitle(result), getExtUrl(result, 0));
             } catch (JSONException e) {
-                sauce.setTitle("Title unavailable", result.getJSONObject("data").getJSONArray("ext_urls").getString(0));
+                sauce.setTitle("Title unavailable", getExtUrl(result, 0));
             }
             return sauce.build();
         } else {

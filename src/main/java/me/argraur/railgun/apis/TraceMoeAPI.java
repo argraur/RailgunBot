@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.ImageHelper;
 
 import static me.argraur.railgun.RailgunBot.kitsuApi;
 
@@ -71,12 +72,7 @@ public class TraceMoeAPI {
      */
     public JSONObject search(Message message) {
         JSONObject response;
-        String imageUrl = "";
-        try {
-            imageUrl = message.getAttachments().get(0).getUrl();
-        } catch (IndexOutOfBoundsException e) {
-            imageUrl = message.getContentRaw().split(" ")[1];
-        }
+        String imageUrl = ImageHelper.getImageUrl(message);
         try {
             response = new JSONObject(getResponseJSON(baseUrl + imageUrl));
         } catch (JSONException e) {
@@ -91,7 +87,7 @@ public class TraceMoeAPI {
      * @param result
      * @return
      */
-    public MessageEmbed toEmbed(JSONObject result) {
+    public MessageEmbed toEmbed(JSONObject result, Message message) {
         String title = result.getString("title");
         JSONObject animeObject = kitsuApi.searchByQuery(title);
         String status = kitsuApi.getStatus(animeObject);
@@ -105,11 +101,14 @@ public class TraceMoeAPI {
         if (!genres.equals("Genres: "))
             description += "\n" + kitsuApi.italic(kitsuApi.getGenres(animeObject)) + "\n";
         description += "\n*Timestamp*  `" + (s - (s %= 60)) / 60 + (s > 9 ? ":" : ":0") + s + "`\n\n";
+        description += "*Similarity* `" + String.format("%.2f%%`\n\n", result.getFloat("similarity") * 100) + "";
         description += "```" + kitsuApi.getSynopsis(animeObject) + "\n" + "```" + "\n";
         if (!ytUrl.equals("https://youtu.be/"))
             description += "**YouTube PV/Trailer: **" + ytUrl;
         embedBuilder.setDescription(description);
         embedBuilder.setThumbnail(kitsuApi.getImage(animeObject));
+        String imageUrl = ImageHelper.getImageUrl(message);
+        embedBuilder.setImage(imageUrl);
         return embedBuilder.build();
     }
 }

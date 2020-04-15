@@ -16,9 +16,14 @@
 
 package me.argraur.railgun.commands;
 
+import java.awt.Color;
+
 import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.ImageHelper;
 import me.argraur.railgun.interfaces.RailgunOrder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class WaitCommand implements RailgunOrder {
     private String waitCommand = "wait";
@@ -42,6 +47,19 @@ public class WaitCommand implements RailgunOrder {
 
     @Override
     public void call(Message message) {
-        message.getChannel().sendMessage(RailgunBot.traceMoeApi.toEmbed(RailgunBot.traceMoeApi.search(message))).queue();
+        String imageUrl = ImageHelper.getImageUrl(message);
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("Processing image...");
+        embedBuilder.setDescription(message.getAuthor().getAsMention());
+        embedBuilder.setImage(imageUrl);
+        embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(imageUrl)));
+        message.getChannel().sendMessage(embedBuilder.build()).queue(
+            (response) -> {
+                MessageEmbed result = RailgunBot.traceMoeApi.toEmbed(RailgunBot.traceMoeApi.search(message), message);
+                message.delete().queue();
+                response.editMessage(result).queue();
+            }
+        );
+        
     }
 }
