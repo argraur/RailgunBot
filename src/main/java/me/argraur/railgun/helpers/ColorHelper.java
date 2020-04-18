@@ -34,10 +34,11 @@ public class ColorHelper {
 
     public ColorHelper() {
         okHttpClient = new OkHttpClient();
-        System.out.println("ColorHelper is ready!");
+        System.out.println("[ColorHelper] Ready!");
     }
 
     public String getColor(String url) {
+        System.out.println("[ColorHelper] getColor(" + url + ")");
         InputStream inputStream = null;
         BufferedImage imBuff;
         Request request = new Request.Builder()
@@ -45,10 +46,12 @@ public class ColorHelper {
                 .build();
         try {
             try (Response response = okHttpClient.newCall(request).execute()) {
+                System.out.println("[ColorHelper] Received response");
                 inputStream = Objects.requireNonNull(response.body()).byteStream();
                 imBuff = Objects.requireNonNull(ImageIO.read(inputStream));
                 int[] rgb = ColorThief.getColor(imBuff);
                 String hex = String.format("%02x%02x%02x", rgb[0], rgb[1], rgb[2]);
+                System.out.println("[ColorHelper] #" + hex);
                 return hex;
             }
         } catch (IOException ignored) {}

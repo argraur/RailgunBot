@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Objects;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -94,17 +95,26 @@ public class SauceNAOAPI {
      */
     public JSONObject search(Message msg) {
         String imageUrl = ImageHelper.getImageUrl(msg);
-        StringBuilder url = new StringBuilder(this.url);
-        url.append("db=" + db);
-        url.append("&output_type=" + outputType);
-        url.append("&testmode=" + testMode);
-        url.append("&numres=" + numres);
-        url.append("&url=" + imageUrl.replaceAll(":", "%3A").replaceAll("/", "%2F"));
+        int index = 0;
+        try {
+            index = Integer.parseInt(msg.getContentDisplay().split(" ")[1]);
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            try {
+                index = Integer.parseInt(msg.getContentDisplay().split(" ")[2]);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {}
+        }
+        
+        StringBuilder url = new StringBuilder(this.url)
+            .append("db=" + db)
+            .append("&output_type=" + outputType)
+            .append("&testmode=" + testMode)
+            .append("&numres=" + numres)
+            .append("&url=" + imageUrl.replaceAll(":", "%3A").replaceAll("/", "%2F"));
+        
         String jsonResponse = getResponseJSON(url.toString());
         JSONObject jObj = new JSONObject(jsonResponse);
         int resultsFound = jObj.getJSONObject("header").getInt("results_returned");
         if (resultsFound != 0) {
-            int index = 0;
             try {
                 jObj.getJSONArray("results").getJSONObject(index).getJSONObject("data").getJSONArray("ext_urls");
             } catch (JSONException e) {
@@ -121,7 +131,7 @@ public class SauceNAOAPI {
      * @param results JSON object from SauceNAO with a result
      * @return Formatted, ready-for-send embed.
      */
-    public MessageEmbed toEmbed(JSONObject result) {
+    public MessageEmbed toEmbed(@NotNull JSONObject result) {
         if (result != null) {
             EmbedBuilder sauce = new EmbedBuilder();
             sauce.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(getThumbnail(result))));

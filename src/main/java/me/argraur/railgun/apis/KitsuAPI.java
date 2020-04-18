@@ -171,7 +171,8 @@ public class KitsuAPI {
      * @return YouTube URL for PVs and Trailers
      */
     public String getYTUrl(JSONObject animeObject) {
-        return "https://youtu.be/" + animeObject.getJSONObject("attributes").getString("youtubeVideoId");
+        String result = "https://youtu.be/" + animeObject.getJSONObject("attributes").getString("youtubeVideoId");
+        return result;
     }
 
     /**
@@ -180,6 +181,7 @@ public class KitsuAPI {
      * @return Raw JSON data.
      */
     public String getResponseJSON(String url) {
+        System.out.println("[KitsuAPI] Send request to " + url);
         Request request = new Request.Builder()
                 .addHeader("Content-Type", "application/vnd.api+json")
                 .addHeader("Accept", "application/vnd.api+json")
@@ -187,9 +189,12 @@ public class KitsuAPI {
                 .build();
         try {
             try (Response response = okHttpClient.newCall(request).execute()) {
+                System.out.println("[KitsuAPI] Response received");
                 return Objects.requireNonNull(response.body()).string();
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            System.out.println("[KitsuAPI] Request failed");
+        }
         return null;
     }
 
@@ -208,6 +213,7 @@ public class KitsuAPI {
      * @return JSONObject with result for given query.
      */
     public JSONObject searchByQuery(String query) {
+        System.out.println("[KitsuAPI] Searching with query '" + query + "'");
         return getAnimeObject(new JSONObject(getResponseJSON(url + String.format(("/anime?filter[text]=%s"), query.replaceAll(" ", "%20")))));
     }
 
