@@ -21,6 +21,7 @@ import static me.argraur.railgun.RailgunBot.prefixHelper;
 import me.argraur.railgun.commands.admin.*;
 import me.argraur.railgun.commands.anime.*;
 import me.argraur.railgun.commands.fun.*;
+import me.argraur.railgun.commands.pseudo.HelpCommand;
 import me.argraur.railgun.commands.utils.*;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
@@ -56,10 +57,8 @@ public class CommandHandler {
      * @param message
      */
     public void onHelpCommandReceived(Message message) {
-        registerCommand(new HelpCommand(commandsMap, prefixHelper.getPrefixForGuild(message)));
-        String temp = message.getContentDisplay().split(" ")[0].replace(prefixHelper.getPrefixForGuild(message), "");
-        System.out.println("[CommandHandler] Calling help command");
-        commandsMap.get(temp).call(message);
+        System.out.println("[CommandHandler] Calling temporary help command");
+        HelpCommand.call(commandsMap, prefixHelper.getPrefixForGuild(message), message);
     }
 
     /**
