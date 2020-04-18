@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.admin;
 
 import static me.argraur.railgun.RailgunBot.giphyHelper;
 
@@ -24,15 +24,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
-public class BanCommand implements RailgunOrder {
-    private String banCommand = "ban";
-    private String usage = banCommand + " <@user>";
-    private String description = "Bans mentioned user.";
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
+public class KickCommand implements RailgunOrder {
+    private String kickCommand = "kick";
+    private String usage = kickCommand + " <@user>";
+    private String description = "Kick `<@user>` from server";
 
     @Override
     public String getUsage() {
@@ -40,19 +35,23 @@ public class BanCommand implements RailgunOrder {
     }
 
     @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
     public String getCommand() {
-        return banCommand;
+        return kickCommand;
     }
 
     @Override
     public void call(Message message) {
-        String args = message.getContentRaw();
-        if (message.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-            message.getGuild().ban(message.getMentionedMembers().get(0), 0).queue();
+        if (message.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+            message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("BAN!");
-            embedBuilder.setDescription("Sayounara, mou kunaide kudasai " + args.split(" ")[1] + "!");
-            embedBuilder.setImage(giphyHelper.searchRandomGif("ban"));
+            embedBuilder.setTitle("KICK!");
+            embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
+            embedBuilder.setImage(giphyHelper.searchRandomGif("kick"));
             message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }

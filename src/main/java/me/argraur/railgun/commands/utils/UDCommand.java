@@ -1,4 +1,4 @@
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.utils;
 
 import static me.argraur.railgun.RailgunBot.urbanDictionaryApi;
 

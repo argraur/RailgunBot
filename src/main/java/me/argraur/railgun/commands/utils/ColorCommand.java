@@ -14,33 +14,41 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.utils;
 
-import java.awt.Color;
-
+import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
-public class PingCommand implements RailgunOrder {
-    private final String pingCommand = "ping";
-    private String usage = pingCommand;
-    private String description = "Pong!";
+import java.awt.Color;
+
+public class ColorCommand implements RailgunOrder {
+    private String colorCommand = "color";
+    private String usage = colorCommand + " <url to image> OR attach image";
+    private String description = "Get dominant color out of an image";
 
     @Override
     public void call(Message message) {
-        long time = System.currentTimeMillis();
+        String url = "";
+        try {
+            url = message.getAttachments().get(0).getUrl();
+        } catch (IndexOutOfBoundsException e) {
+            url = message.getContentRaw().split(" ")[1];
+        }
+        String hex = RailgunBot.colorHelper.getColor(url);
+        String imageUrl = "https://dummyimage.com/100x100/" + hex + "/" + hex + ".jpg";
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle(description);
-        embedBuilder.setColor(Color.pink);
-        message.getChannel().sendMessage(embedBuilder.build()).queue((response) -> {
-            response.editMessage(new EmbedBuilder(response.getEmbeds().get(0)).setTitle(description + " " + (System.currentTimeMillis() - time) + " ms").build()).queue();
-        });
+        embedBuilder.setTitle("#" + hex);
+        embedBuilder.setColor(Color.decode("#" + hex));
+        embedBuilder.setImage(imageUrl);
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 
     @Override
     public String getCommand() {
-        return pingCommand;
+        return colorCommand;
     }
 
     @Override

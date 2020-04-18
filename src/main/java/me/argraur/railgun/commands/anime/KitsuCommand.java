@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.anime;
 
 import static me.argraur.railgun.RailgunBot.prefixHelper;
 import static me.argraur.railgun.RailgunBot.kitsuApi;

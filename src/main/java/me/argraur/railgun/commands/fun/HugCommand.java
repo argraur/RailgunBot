@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.fun;
 
 import static me.argraur.railgun.RailgunBot.giphyHelper;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
-
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
-public class KickCommand implements RailgunOrder {
-    private String kickCommand = "kick";
-    private String usage = kickCommand + " <@user>";
-    private String description = "Kick `<@user>` from server";
+import static java.awt.Color.PINK;
+
+public class HugCommand implements RailgunOrder {
+    private String hugCommand = "hug";
+    private String usage = hugCommand + " <@user>";
+    private String description = "Hug a `<@user>` <3";
+
+    @Override
+    public String getCommand() {
+        return hugCommand;
+    }
 
     @Override
     public String getUsage() {
@@ -40,19 +45,12 @@ public class KickCommand implements RailgunOrder {
     }
 
     @Override
-    public String getCommand() {
-        return kickCommand;
-    }
-
-    @Override
     public void call(Message message) {
-        if (message.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("KICK!");
-            embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
-            embedBuilder.setImage(giphyHelper.searchRandomGif("kick"));
-            message.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("HUG YOU!");
+        embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
+        embedBuilder.setImage(giphyHelper.searchRandomGif("anime hug"));
+        embedBuilder.setColor(PINK);
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.utils;
 
 import java.awt.Color;
 

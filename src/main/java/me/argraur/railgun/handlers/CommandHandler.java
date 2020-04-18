@@ -18,7 +18,11 @@ package me.argraur.railgun.handlers;
 
 import static me.argraur.railgun.RailgunBot.prefixHelper;
 
-import me.argraur.railgun.commands.*;
+import me.argraur.railgun.commands.admin.*;
+import me.argraur.railgun.commands.anime.*;
+import me.argraur.railgun.commands.fun.*;
+import me.argraur.railgun.commands.utils.*;
+
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.entities.Message;

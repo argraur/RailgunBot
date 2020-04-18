@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.fun;
 
 import java.awt.Color;
 import java.util.Random;

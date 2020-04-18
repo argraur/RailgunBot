@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Pixel3ROM Project
+ * Copyright (C) 2020 Arseniy Graur
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,33 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.utils;
 
-import static me.argraur.railgun.RailgunBot.giphyHelper;
+import java.awt.Color;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
-import static java.awt.Color.PINK;
+public class PingCommand implements RailgunOrder {
+    private final String pingCommand = "ping";
+    private String usage = pingCommand;
+    private String description = "Pong!";
 
-public class HugCommand implements RailgunOrder {
-    private String hugCommand = "hug";
-    private String usage = hugCommand + " <@user>";
-    private String description = "Hug a `<@user>` <3";
+    @Override
+    public void call(Message message) {
+        long time = System.currentTimeMillis();
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle(description);
+        embedBuilder.setColor(Color.pink);
+        message.getChannel().sendMessage(embedBuilder.build()).queue((response) -> {
+            response.editMessage(new EmbedBuilder(response.getEmbeds().get(0)).setTitle(description + " " + (System.currentTimeMillis() - time) + " ms").build()).queue();
+        });
+    }
 
     @Override
     public String getCommand() {
-        return hugCommand;
+        return pingCommand;
     }
 
     @Override
@@ -42,15 +51,5 @@ public class HugCommand implements RailgunOrder {
     @Override
     public String getDescription() {
         return description;
-    }
-
-    @Override
-    public void call(Message message) {
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("HUG YOU!");
-        embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
-        embedBuilder.setImage(giphyHelper.searchRandomGif("anime hug"));
-        embedBuilder.setColor(PINK);
-        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

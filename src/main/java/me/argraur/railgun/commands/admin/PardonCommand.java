@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.admin;
 
 import static me.argraur.railgun.RailgunBot.ignoreHelper;
-import static me.argraur.railgun.commands.IgnoreCommand.senpaiId;
+import static me.argraur.railgun.commands.admin.IgnoreCommand.senpaiId;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
 

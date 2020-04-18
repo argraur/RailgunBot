@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.fun;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.entities.Message;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.admin;
 
 import static me.argraur.railgun.RailgunBot.ignoreHelper;
 import me.argraur.railgun.interfaces.RailgunOrder;

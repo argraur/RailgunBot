@@ -1,4 +1,4 @@
-package me.argraur.railgun.commands;
+package me.argraur.railgun.commands.admin;
 
 import java.awt.Color;
 
