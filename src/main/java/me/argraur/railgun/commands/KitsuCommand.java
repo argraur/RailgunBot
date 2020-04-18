@@ -16,7 +16,7 @@
 
 package me.argraur.railgun.commands;
 
-import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
+import static me.argraur.railgun.RailgunBot.prefixHelper;
 import static me.argraur.railgun.RailgunBot.kitsuApi;
 
 import me.argraur.railgun.interfaces.RailgunOrder;
@@ -46,14 +46,11 @@ public class KitsuCommand implements RailgunOrder {
     @Override
     public void call(Message message) {
         String temp = message.getContentRaw();
-        temp = temp.substring((COMMAND_PREFIX + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
-        switch (message.getContentRaw().split(" ")[1]) {
-            case "genre":
-                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
-                break;
-            case "search":
-                message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchByQuery(temp))).queue();
-            default: break;
+        temp = temp.substring((prefixHelper.getPrefixForGuild(message) + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
+        if (message.getContentRaw().split(" ")[1].equals("genre")) {
+            message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
+        } else if (message.getContentRaw().split(" ")[1].equals("search")) {
+            message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchByQuery(temp))).queue();
         }
     }
 }

@@ -16,7 +16,6 @@
 
 package me.argraur.railgun.commands;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -28,28 +27,47 @@ import java.util.LinkedHashMap;
 
 public class HelpCommand implements RailgunOrder {
     private String helpCommand = "help";
-    private String usage = helpCommand;
+    private String usage = helpCommand + " <command>";
     private String description = "Bot usage help!";
-    private String help;
+    private LinkedHashMap<String, MessageEmbed> help = new LinkedHashMap<>();
 
-    public HelpCommand(LinkedHashMap<String, RailgunOrder> commands) {
-        StringBuilder output = new StringBuilder();
+    public HelpCommand(LinkedHashMap<String, RailgunOrder> commands, String prefix) {
         for (RailgunOrder command : commands.values()) {
-            System.out.println("HelpCommand_Constructor: Loading help for command " + command.getCommand());
-            output.append("```fix\n" + RailgunBot.COMMAND_PREFIX + command.getCommand() + "\n```");
-            output.append("**Description:** *" + command.getDescription() + "*\n");
-            output.append("**Usage:** `" + RailgunBot.COMMAND_PREFIX + command.getUsage() + "`");
-            output.append("\n\n");
+            System.out.println("[HelpCommand] Loading help for command " + command.getCommand());
+            StringBuilder tmp = new StringBuilder()
+                .append("**Description:** *")
+                .append(command.getDescription())
+                .append("*\n")
+                .append("**Usage:** `")
+                .append(prefix)
+                .append(command.getUsage())
+                .append("`\n\n");
+            help.put(command.getCommand(), createEmbed(tmp, prefix + command.getCommand()));
         }
-        output.append("Current command prefix: `" + RailgunBot.COMMAND_PREFIX + "`");
-        this.help = output.toString();
+        addHelp(commands, prefix);
     }
 
-    public MessageEmbed createEmbed() {
+    private void addHelp(LinkedHashMap<String, RailgunOrder> commands, String prefix) {
+        StringBuilder helpCommand = new StringBuilder()
+            .append("**Description:** *")
+            .append(this.getDescription())
+            .append("*\n")
+            .append("**Usage: ** `")
+            .append(prefix)
+            .append(this.getUsage())
+            .append("`\n")
+            .append("**Available commands: ** ```fix\n");
+        for (RailgunOrder command: commands.values())
+            helpCommand.append(command.getCommand()).append("\n");
+        helpCommand.append("\n```\n");
+        help.put(this.getCommand(), createEmbed(helpCommand, prefix + this.getCommand()));
+    }
+
+    public MessageEmbed createEmbed(StringBuilder output, String command) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.pink);
-        embedBuilder.setTitle("Misaka-chan!");
-        embedBuilder.setDescription("I can't do many fancy stuff. BUT! Here is what I can do *currently*!\n\n" + help);
+        embedBuilder.setTitle(command);
+        embedBuilder.setDescription(output.toString());
         String misakaPic = "https://media.discordapp.net/attachments/698965374317625345/699022743542169691/oof.jpg?width=799&height=677";
         embedBuilder.setThumbnail(misakaPic);
         return embedBuilder.build();
@@ -57,7 +75,11 @@ public class HelpCommand implements RailgunOrder {
 
     @Override
     public void call(Message message) {
-        message.getChannel().sendMessage(createEmbed()).queue();
+        try {
+            message.getChannel().sendMessage(help.get(message.getContentDisplay().split(" ")[1])).queue();
+        } catch (IndexOutOfBoundsException e) {
+            message.getChannel().sendMessage(help.get(helpCommand)).queue();
+        }
     }
 
     @Override

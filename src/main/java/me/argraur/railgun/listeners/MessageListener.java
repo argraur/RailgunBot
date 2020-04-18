@@ -16,15 +16,17 @@
 
 package me.argraur.railgun.listeners;
 
-import static me.argraur.railgun.RailgunBot.COMMAND_PREFIX;
 import static me.argraur.railgun.RailgunBot.commandHandler;
 import static me.argraur.railgun.RailgunBot.ignoreHelper;
+import static me.argraur.railgun.RailgunBot.prefixHelper;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
+
+import me.argraur.railgun.RailgunBot;
 
 public class MessageListener extends ListenerAdapter {
     /**
@@ -35,13 +37,19 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         Message msg = event.getMessage();
         String msgStr = msg.getContentRaw();
-        if (!msgStr.startsWith(COMMAND_PREFIX))
+        if (RailgunBot.muteHandler.isSenderMuted(msg)) {
+            msg.delete().queue();
             return;
-        System.out.println("[VERBOSE] MessageReceived: " + msgStr);
-        if (commandHandler.checkIfCommandExists(msgStr.split(" ")[0]) && !ignoreHelper.checkIfIgnored(msg)) {
+        }
+        else if (!msgStr.startsWith(prefixHelper.getPrefixForGuild(msg)))
+            return;
+        System.out.println("[MessageListener] Received message " + msgStr);
+        if (!ignoreHelper.checkIfIgnored(msg)) {
+            if (msgStr.split(" ")[0].contains("help")) {
+                commandHandler.onHelpCommandReceived(msg);
+                return;
+            }
             commandHandler.onCommandReceived(msgStr, msg);
-        } else {
-            System.out.println("[VERBOSE] Command doesn't exist!");
         }
     }
 }

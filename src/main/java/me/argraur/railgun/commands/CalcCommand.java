@@ -36,7 +36,7 @@ public class CalcCommand implements RailgunOrder {
     @Override
     public void call(Message message) {
         String args = message.getContentRaw();
-        String[] arr = args.replace(RailgunBot.COMMAND_PREFIX + calcCommand + " ", "").toString().split(" ");
+        String[] arr = args.replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + calcCommand + " ", "").toString().split(" ");
         float tmp = Float.parseFloat(arr[0]); float result = 0;
         for (int i = 1; i < arr.length; i++) {
             try {

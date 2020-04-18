@@ -21,9 +21,11 @@ import me.argraur.railgun.apis.SauceNAOAPI;
 import me.argraur.railgun.apis.TraceMoeAPI;
 import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.handlers.CommandHandler;
+import me.argraur.railgun.handlers.MuteHandler;
 import me.argraur.railgun.helpers.ColorHelper;
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
+import me.argraur.railgun.helpers.PrefixHelper;
 import me.argraur.railgun.helpers.GiphyHelper;
 
 import me.argraur.railgun.listeners.MessageListener;
@@ -47,10 +49,12 @@ public class RailgunBot {
     public static IgnoreHelper ignoreHelper;
     public static GiphyHelper giphyHelper;
     public static ColorHelper colorHelper;
-
+    public static PrefixHelper prefixHelper;
+    
     // Define main command handlers
     public static MessageListener messageListener;
     public static CommandHandler commandHandler;
+    public static MuteHandler muteHandler;
 
     // Define additional API classes
     public static KitsuAPI kitsuApi;
@@ -111,7 +115,9 @@ public class RailgunBot {
             ignoreHelper = new IgnoreHelper();
             giphyHelper = new GiphyHelper(readConfig("giphy"));
             colorHelper = new ColorHelper();
+            prefixHelper = new PrefixHelper();
             commandHandler = new CommandHandler();
+            muteHandler = new MuteHandler();
             kitsuApi = new KitsuAPI();
             urbanDictionaryApi = new UrbanDictionaryAPI();
             sauceNAOApi = new SauceNAOAPI();

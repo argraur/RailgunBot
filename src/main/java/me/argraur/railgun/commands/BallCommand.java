@@ -72,7 +72,7 @@ public class BallCommand implements RailgunOrder {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.PINK);
         embedBuilder.setTitle(replies[new Random().nextInt(replies.length)]);
-        embedBuilder.setDescription(message.getContentRaw().replace(RailgunBot.COMMAND_PREFIX + ballCommand + " ", ""));
+        embedBuilder.setDescription(message.getContentRaw().replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + ballCommand + " ", ""));
         message.getChannel().sendMessage(message.getAuthor().getAsMention()).queue(
             (response) -> {
                 response.editMessage(embedBuilder.build()).queue();

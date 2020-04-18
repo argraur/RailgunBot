@@ -57,9 +57,14 @@ public class SauceCommand implements RailgunOrder {
         embedBuilder.setColor(Color.PINK);
         message.getChannel().sendMessage(embedBuilder.build()).queue(
             (response) -> {
-                MessageEmbed result = sauceNAOApi.toEmbed(sauceNAOApi.search(message));
-                message.delete().queue();
-                response.editMessage(result).queue();
+                try {
+                    MessageEmbed result = sauceNAOApi.toEmbed(sauceNAOApi.search(message));
+                    message.delete().queue();
+                    response.editMessage(result).queue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.editMessage(embedBuilder.setTitle("Processing failed. No source links were found.").build()).queue();
+                }     
             }
         );
     }
