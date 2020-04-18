@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Pixel3ROM Project
+ * Copyright (C) 2020 Arseniy Graur
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
