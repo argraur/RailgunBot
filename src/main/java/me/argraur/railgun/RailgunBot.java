@@ -122,8 +122,9 @@ public class RailgunBot {
             urbanDictionaryApi = new UrbanDictionaryAPI();
             sauceNAOApi = new SauceNAOAPI();
             traceMoeApi = new TraceMoeAPI();
-        } catch (IOException e) {
-            error();
+        } catch (Exception e) {
+            System.out.println("[RailgunBot] Init failed: " + e.getStackTrace());
+            System.exit(1);
         }
         new RailgunBot();
     }
@@ -140,7 +141,8 @@ public class RailgunBot {
     /**
      * Error function.
      */
-    public static void error() {
+    public static void error(Object o) {
+        System.out.println("[RailgunBot] Received error call from " + o.getClass().toString());
         System.exit(1);
     }
 

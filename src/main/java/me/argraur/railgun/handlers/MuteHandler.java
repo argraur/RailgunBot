@@ -19,6 +19,8 @@ package me.argraur.railgun.handlers;
 import java.io.IOException;
 import java.util.HashMap;
 
+import me.argraur.railgun.RailgunBot;
+
 import static me.argraur.railgun.helpers.SaveHelper.readObject;
 import static me.argraur.railgun.helpers.SaveHelper.writeObject;
 
@@ -45,7 +47,9 @@ public class MuteHandler {
         try {
             writeObject(muteMap, file);
         } catch (IOException ee) {
+            System.out.println("[MuteHandler] [FATAL] Write failed!");
             ee.printStackTrace();
+            RailgunBot.error(this);
             return;
         }
     }

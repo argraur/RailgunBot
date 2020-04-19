@@ -23,6 +23,7 @@ import static me.argraur.railgun.helpers.SaveHelper.writeObject;
 import java.io.IOException;
 import java.util.HashMap;
 
+import me.argraur.railgun.RailgunBot;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -54,8 +55,9 @@ public class PrefixHelper {
         try {
             writeObject(guildPrefixes, file);
         } catch (IOException e) {
+            System.out.println("[PrefixHelper] [FATAL] Write failed!");
             e.printStackTrace();
-            return;
+            RailgunBot.error(this);
         }
     }
 
