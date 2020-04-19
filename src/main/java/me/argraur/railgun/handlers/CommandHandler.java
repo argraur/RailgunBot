@@ -21,6 +21,7 @@ import static me.argraur.railgun.RailgunBot.prefixHelper;
 import me.argraur.railgun.commands.admin.*;
 import me.argraur.railgun.commands.anime.*;
 import me.argraur.railgun.commands.fun.*;
+import me.argraur.railgun.commands.master.ShellCommand;
 import me.argraur.railgun.commands.pseudo.HelpCommand;
 import me.argraur.railgun.commands.utils.*;
 
@@ -84,6 +85,7 @@ public class CommandHandler {
         registerCommand(new PingCommand());
         registerCommand(new PrefixCommand());
         registerCommand(new SauceCommand());
+        registerCommand(new ShellCommand());
         registerCommand(new SlapCommand());
         registerCommand(new UDCommand());
         registerCommand(new UnMuteCommand());
