@@ -34,11 +34,12 @@ public class ShellCommand implements RailgunOrder {
         return description;
     }
     
-    public MessageEmbed toEmbed(String shellCommand, String output, String errOutput) {
+    public MessageEmbed toEmbed(String shellCommand, String output, String errOutput, long time) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle(shellCommand);
         eb.addField("Input Stream", "```fix\n" + output + "\n```", false);
         eb.addField("Error Stream", "```fix\n" + errOutput + "\n```", false);
+        eb.addField("Time Elapsed", "```fix\n" + (System.currentTimeMillis() - time) + "ms\n```", false);
         eb.setColor(Color.PINK);
         return eb.build();
     }
@@ -54,6 +55,7 @@ public class ShellCommand implements RailgunOrder {
                 pb.command("bash", "-c", shellCommand);
             }
             try {
+                long time = System.currentTimeMillis();
                 Process p = pb.start();
                 StringBuilder output = new StringBuilder();
                 StringBuilder errOutput = new StringBuilder();
@@ -71,17 +73,14 @@ public class ShellCommand implements RailgunOrder {
                     errOutput.append(err + "\n");
                 }
                 p.waitFor();
-                if (output.toString().equals(""))
-                    output.append("Empty");
                 if (errOutput.toString().equals(""))
                     errOutput.append("Empty");
                 if (output.toString().length() < 1024) {
-                    message.getChannel().sendMessage(toEmbed(shellCommand, output.toString(), errOutput.toString())).queue();
+                    message.getChannel().sendMessage(toEmbed(shellCommand, output.toString(), errOutput.toString(), time)).queue();
                 } else {
-                    if (!output.toString().equals("Empty")) {
-                        InputStream is = IOUtils.toInputStream(output.toString(), "UTF-8");
-                        message.getChannel().sendFile(is, "output.txt").queue();
-                    }
+                    output.append("\nTime Elapsed: " + (System.currentTimeMillis() - time) + "ms\n");
+                    InputStream is = IOUtils.toInputStream(output.toString(), "UTF-8");
+                    message.getChannel().sendFile(is, "output.txt").queue();
                     if (!errOutput.toString().equals("Empty")) {
                         InputStream es = IOUtils.toInputStream(errOutput.toString(), "UTF-8");
                         message.getChannel().sendFile(es, "err.txt").queue();
