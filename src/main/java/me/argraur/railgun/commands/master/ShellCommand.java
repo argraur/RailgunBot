@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class ShellCommand implements RailgunOrder {
     private String command = "shell";
-    private String usage = " <command>";
+    private String usage = command + " <command>";
     private String description = "Execute shell command (Only for mine goshujin~!)";
 
     @Override
@@ -75,7 +75,7 @@ public class ShellCommand implements RailgunOrder {
                     output.append("Empty");
                 if (errOutput.toString().equals(""))
                     errOutput.append("Empty");
-                if (output.toString().length() < 2000) {
+                if (output.toString().length() < 1024) {
                     message.getChannel().sendMessage(toEmbed(shellCommand, output.toString(), errOutput.toString())).queue();
                 } else {
                     if (!output.toString().equals("Empty")) {
