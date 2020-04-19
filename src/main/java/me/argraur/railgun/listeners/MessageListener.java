@@ -26,8 +26,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
 
-import me.argraur.railgun.RailgunBot;
-
 public class MessageListener extends ListenerAdapter {
     /**
      * Called whenever the bot gets a message.
@@ -37,11 +35,7 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         Message msg = event.getMessage();
         String msgStr = msg.getContentRaw();
-        if (RailgunBot.muteHandler.isSenderMuted(msg)) {
-            msg.delete().queue();
-            return;
-        }
-        else if (!msgStr.startsWith(prefixHelper.getPrefixForGuild(msg)))
+        if (!msgStr.startsWith(prefixHelper.getPrefixForGuild(msg)))
             return;
         System.out.println("[MessageListener] Received message " + msgStr);
         if (!ignoreHelper.checkIfIgnored(msg)) {

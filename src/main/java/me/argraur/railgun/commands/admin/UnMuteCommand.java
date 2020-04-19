@@ -21,7 +21,11 @@ import java.awt.Color;
 import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.interfaces.RailgunOrder;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 public class UnMuteCommand implements RailgunOrder {
     private String unMuteCommand = "unmute";
@@ -45,11 +49,22 @@ public class UnMuteCommand implements RailgunOrder {
     
     @Override
     public void call(Message message) {
-        RailgunBot.muteHandler.unMute(message);
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.PINK);
-        embedBuilder.setTitle("You can speak again!");
-        embedBuilder.setDescription(message.getAuthor().getAsMention() + " unmuted " + message.getMentionedUsers().get(0).getAsMention() + "!");
-        message.getChannel().sendMessage(embedBuilder.build()).queue();
+        Role mutedRole = null;
+        for (Role role : message.getGuild().getRoles())
+            if (role.getName().equalsIgnoreCase("muted")) {
+                mutedRole = role;
+                break;
+            }
+        if (mutedRole == null) {
+            return;
+        }
+        if (message.getMember().hasPermission(Permission.ADMINISTRATOR) || message.getMember().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
+            message.getGuild().removeRoleFromMember(message.getMentionedMembers().get(0), mutedRole).queue();
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setColor(Color.PINK);
+            embedBuilder.setTitle("You can speak freely again");
+            embedBuilder.setDescription(message.getAuthor().getAsMention() + " unmuted " + message.getMentionedUsers().get(0).getAsMention() + "!");
+            message.getChannel().sendMessage(embedBuilder.build()).queue();
+        }
     }
 }

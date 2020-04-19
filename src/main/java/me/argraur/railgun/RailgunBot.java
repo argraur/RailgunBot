@@ -21,7 +21,6 @@ import me.argraur.railgun.apis.SauceNAOAPI;
 import me.argraur.railgun.apis.TraceMoeAPI;
 import me.argraur.railgun.apis.UrbanDictionaryAPI;
 import me.argraur.railgun.handlers.CommandHandler;
-import me.argraur.railgun.handlers.MuteHandler;
 import me.argraur.railgun.helpers.ColorHelper;
 import me.argraur.railgun.helpers.ConfigReader;
 import me.argraur.railgun.helpers.IgnoreHelper;
@@ -54,7 +53,6 @@ public class RailgunBot {
     // Define main command handlers
     public static MessageListener messageListener;
     public static CommandHandler commandHandler;
-    public static MuteHandler muteHandler;
 
     // Define additional API classes
     public static KitsuAPI kitsuApi;
@@ -117,7 +115,6 @@ public class RailgunBot {
             colorHelper = new ColorHelper();
             prefixHelper = new PrefixHelper();
             commandHandler = new CommandHandler();
-            muteHandler = new MuteHandler();
             kitsuApi = new KitsuAPI();
             urbanDictionaryApi = new UrbanDictionaryAPI();
             sauceNAOApi = new SauceNAOAPI();
