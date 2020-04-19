@@ -33,7 +33,11 @@ public class ShellCommand implements RailgunOrder {
         if (message.getAuthor().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
             String shellCommand = message.getContentDisplay().replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + command + " ", "");
             ProcessBuilder pb = new ProcessBuilder();
-            pb.command("cmd.exe", "/c", shellCommand);
+            if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+                pb.command("cmd.exe", "/c", shellCommand);
+            } else {
+                pb.command("bash", "-c", shellCommand);
+            }
             try {
                 Process p = pb.start();
                 StringBuilder output = new StringBuilder();
