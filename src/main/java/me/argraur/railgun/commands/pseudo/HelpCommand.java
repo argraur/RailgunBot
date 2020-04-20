@@ -45,15 +45,20 @@ public class HelpCommand {
         if (message.getContentDisplay().split(" ").length > 1) {
             for (RailgunOrder command : commands.values()) {
                 System.out.println("[HelpCommand] Loading help for command " + command.getCommand());
-                StringBuilder tmp = new StringBuilder()
-                    .append("**Description:** *")
-                    .append(command.getDescription())
-                    .append("*\n")
-                    .append("**Usage:** `")
-                    .append(prefix)
-                    .append(command.getUsage())
-                    .append("`\n\n");
-                help.put(command.getCommand(), createEmbed(tmp, prefix + command.getCommand()));
+                help.put(
+                    command.getCommand(), 
+                    createEmbed(
+                        new StringBuilder()
+                            .append("**Description:** *")
+                            .append(command.getDescription())
+                            .append("*\n")
+                            .append("**Usage:** `")
+                            .append(prefix)
+                            .append(command.getUsage())
+                            .append("`\n\n"),
+                        prefix + command.getCommand()
+                    )
+                );
             }
         }
         StringBuilder helpCommand = new StringBuilder()
