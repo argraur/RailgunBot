@@ -29,12 +29,22 @@ public class SaveHelper {
      * @param file Target file for object
      * @throws IOException If file stream fails
      */
-    public static void writeObject(Object o, String file) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(o);
-        System.out.println("[SaveHelper]: Wrote object to file " + file);
-        objectOutputStream.close();
+    public static Thread writeObject(Object o, String file) {
+        return new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(o);
+                    System.out.println("[SaveHelper]: Wrote object to file " + file);
+                    objectOutputStream.close();
+                    System.out.println("[Thread] [SaveHelper] Save successful to file " + file);
+                } catch (Exception e) {
+                    System.out.println("[Thread] [SaveHelper] FATAL: Save failed to file " + file);
+                }
+            }
+        });
     }
 
     /**
