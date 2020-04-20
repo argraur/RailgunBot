@@ -73,6 +73,9 @@ public class MuteCommand implements RailgunOrder {
         if (message.getMember().hasPermission(Permission.ADMINISTRATOR) || message.getMember().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
             if (!message.getMentionedMembers().get(0).hasPermission(Permission.MANAGE_CHANNEL) || !message.getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
                 message.getGuild().addRoleToMember(message.getMentionedMembers().get(0), mutedRole).queue();
+                if (message.getMentionedMembers().get(0).getVoiceState().inVoiceChannel()) {
+                    message.getGuild().kickVoiceMember(message.getMentionedMembers().get(0)).queue();
+                }
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(Color.PINK);
                 embedBuilder.setTitle("SILENCE!");
