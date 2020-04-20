@@ -35,7 +35,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.Compression;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class RailgunBot {
