@@ -76,6 +76,7 @@ public class CommandHandler {
         registerCommand(new GifCommand());
         registerCommand(new HugCommand());
         registerCommand(new IgnoreCommand());
+        registerCommand(new JuggleCommand());
         registerCommand(new KickCommand());
         registerCommand(new KitsuCommand());
         registerCommand(new MockCommand());
