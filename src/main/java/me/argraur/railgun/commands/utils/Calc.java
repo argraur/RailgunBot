@@ -18,25 +18,58 @@ package me.argraur.railgun.commands.utils;
 
 import java.awt.Color;
 
+import me.argraur.railgun.interfaces.Command;
+
 import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
-public class CalcCommand implements RailgunOrder {
-    private String calcCommand = "calc";
+public class Calc implements Command {
+    private String command = "calc";
     private String description = "Simple calculator.";
-    private String usage = calcCommand + " <expression> (e.g " + calcCommand + " 2 * 2 * 2 (with spaces)";
+    private String usage = command + " <expression> (e.g " + command + " 2 * 2 * 2 (with spaces)";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
-        return calcCommand;
+        return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
+    @Override
+    public String getUsage() {
+        return usage;
+    }
+
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
     public void call(Message message) {
         String args = message.getContentRaw();
-        String[] arr = args.replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + calcCommand + " ", "").toString().split(" ");
+        String[] arr = args.replace(HelperManager.prefix.getPrefixForGuild(message) + command + " ", "").toString().split(" ");
         float tmp = Float.parseFloat(arr[0]); float result = 0;
         for (int i = 1; i < arr.length; i++) {
             try {
@@ -62,18 +95,8 @@ public class CalcCommand implements RailgunOrder {
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.PINK);
-        embedBuilder.setTitle(args.replace(RailgunBot.COMMAND_PREFIX + calcCommand + " ", ""));
+        embedBuilder.setTitle(args.replace(RailgunBot.COMMAND_PREFIX + command + " ", ""));
         embedBuilder.setDescription("**Result: " + String.valueOf(result) + "**");
         message.getChannel().sendMessage(embedBuilder.build()).queue();
-    }
-
-    @Override
-    public String getUsage() {
-        return usage;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 }

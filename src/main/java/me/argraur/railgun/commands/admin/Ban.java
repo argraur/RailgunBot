@@ -16,43 +16,62 @@
 
 package me.argraur.railgun.commands.admin;
 
-import static me.argraur.railgun.RailgunBot.giphyHelper;
-
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
+import me.argraur.railgun.interfaces.Command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
-public class BanCommand implements RailgunOrder {
-    private String banCommand = "ban";
-    private String usage = banCommand + " <@user>";
-    private String description = "Bans mentioned user.";
+public class Ban implements Command {
+    private final String command = "ban";
+    private final String usage = command + " <@user>";
+    private final String description = "Bans mentioned user.";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
-    public String getDescription() {
-        return description;
+    public String getCommand() {
+        return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
-    public String getCommand() {
-        return banCommand;
+    public String getDescription() {
+        return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        String args = message.getContentRaw();
+    public void call(final Message message) {
+        final String args = message.getContentRaw();
         if (message.getMember().hasPermission(Permission.BAN_MEMBERS)) {
             message.getGuild().ban(message.getMentionedMembers().get(0), 0).queue();
-            EmbedBuilder embedBuilder = new EmbedBuilder();
+            final EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("BAN!");
             embedBuilder.setDescription("Sayounara, mou kunaide kudasai " + args.split(" ")[1] + "!");
-            embedBuilder.setImage(giphyHelper.searchRandomGif("ban"));
+            embedBuilder.setImage(HelperManager.giphy.searchRandomGif("ban"));
             message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }

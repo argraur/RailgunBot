@@ -31,7 +31,7 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.HelperManager;
 
 public class KitsuAPI {
     private OkHttpClient okHttpClient;
@@ -228,7 +228,7 @@ public class KitsuAPI {
         String ytUrl = getYTUrl(animeObject);
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(getImage(animeObject))));
+        embedBuilder.setColor(Color.decode("#" + HelperManager.color.getColor(getImage(animeObject))));
         embedBuilder.setTitle(getEnglishTitle(animeObject), getKitsuUrl(animeObject));
         String description = "\n\n" + bold(getSource(animeObject) + " // Status: " + status.replace(Character.toString(status.charAt(0)), Character.toString(status.charAt(0)).toUpperCase()) + " // Rating: " + getRating(animeObject)) + "\n";
         if (!genres.equals("Genres: "))

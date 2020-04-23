@@ -16,29 +16,31 @@
 
 package me.argraur.railgun.handlers;
 
-import static me.argraur.railgun.RailgunBot.prefixHelper;
-
 import me.argraur.railgun.commands.admin.*;
 import me.argraur.railgun.commands.anime.*;
 import me.argraur.railgun.commands.fun.*;
-import me.argraur.railgun.commands.master.ShellCommand;
-import me.argraur.railgun.commands.pseudo.HelpCommand;
 import me.argraur.railgun.commands.utils.*;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.commands.fun.Long;
+import me.argraur.railgun.commands.master.Shell;
+import me.argraur.railgun.commands.pseudo.Help;
+
+import me.argraur.railgun.helpers.HelperManager;
+
+import me.argraur.railgun.interfaces.Command;
 
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.LinkedHashMap;
 
 public class CommandHandler {
-    private LinkedHashMap<String, RailgunOrder> commandsMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, Command> commandsMap = new LinkedHashMap<>();
 
     /**
      * Registers the command in handler.
      * @param command RailgunOrder command object to register.
      */
-    void registerCommand(RailgunOrder command) {
+    void registerCommand(Command command) {
         commandsMap.put(command.getCommand(), command);
         System.out.println("[CommandHandler] Loaded command " + command.getCommand());
     }
@@ -48,7 +50,7 @@ public class CommandHandler {
      * @param command Called when command received.
      */
     public void onCommandReceived(String command, Message message) {
-        String temp = command.split(" ")[0].replace(prefixHelper.getPrefixForGuild(message), "");
+        String temp = command.split(" ")[0].replace(HelperManager.prefix.getPrefixForGuild(message), "");
         System.out.println("[CommandHandler] Calling command " + temp);
         commandsMap.get(temp).call(message);
     }
@@ -59,7 +61,7 @@ public class CommandHandler {
      */
     public void onHelpCommandReceived(Message message) {
         System.out.println("[CommandHandler] Calling temporary help command");
-        HelpCommand.call(commandsMap, prefixHelper.getPrefixForGuild(message), message);
+        Help.call(commandsMap, HelperManager.prefix.getPrefixForGuild(message), message);
     }
 
     /**
@@ -67,31 +69,30 @@ public class CommandHandler {
      * @param messageChannel Registers commands.
      */
     public CommandHandler() {
-        registerCommand(new BallCommand());
-        registerCommand(new BanCommand());
-        registerCommand(new CalcCommand());
-        registerCommand(new CoinFlipCommand());
-        registerCommand(new ColorCommand());
-        registerCommand(new DeleteCommand());
-        registerCommand(new GifCommand());
-        registerCommand(new HugCommand());
-        registerCommand(new IgnoreCommand());
-        registerCommand(new JuggleCommand());
-        registerCommand(new KickCommand());
-        registerCommand(new KitsuCommand());
-        registerCommand(new MirrorCommand());
-        registerCommand(new MockCommand());
-        registerCommand(new MuteCommand());
-        registerCommand(new OCommand());
-        registerCommand(new PardonCommand());
-        registerCommand(new PingCommand());
-        registerCommand(new PrefixCommand());
-        registerCommand(new SauceCommand());
-        registerCommand(new ShellCommand());
-        registerCommand(new SlapCommand());
-        registerCommand(new UDCommand());
-        registerCommand(new UnMuteCommand());
-        registerCommand(new WaitCommand());
+        registerCommand(new Ball());
+        registerCommand(new Ban());
+        registerCommand(new Calc());
+        registerCommand(new CoinFlip());
+        registerCommand(new Color());
+        registerCommand(new Delete());
+        registerCommand(new Gif());
+        registerCommand(new Hug());
+        registerCommand(new Id());
+        registerCommand(new Juggle());
+        registerCommand(new Kick());
+        registerCommand(new Kitsu());
+        registerCommand(new Mirror());
+        registerCommand(new Mock());
+        registerCommand(new Mute());
+        registerCommand(new Long());
+        registerCommand(new Ping());
+        registerCommand(new Prefix());
+        registerCommand(new Sauce());
+        registerCommand(new Shell());
+        registerCommand(new Slap());
+        registerCommand(new UrbanDict());
+        registerCommand(new Unmute());
+        registerCommand(new Wait());
         System.out.println("[CommandHandler] Ready");
     }
 
@@ -101,6 +102,6 @@ public class CommandHandler {
      * @return Whether command exist or not
      */
     public boolean checkIfCommandExists(Message msg) {
-        return commandsMap.containsKey(msg.getContentDisplay().replace(prefixHelper.getPrefixForGuild(msg), ""));
+        return commandsMap.containsKey(msg.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(msg), ""));
     }
 }

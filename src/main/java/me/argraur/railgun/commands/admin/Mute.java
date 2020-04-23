@@ -18,8 +18,10 @@ package me.argraur.railgun.commands.admin;
 
 import java.awt.Color;
 
+import me.argraur.railgun.interfaces.Command;
+
 import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -27,30 +29,50 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
-public class MuteCommand implements RailgunOrder {
-    private String muteCommand = "mute";
-    private String usage = muteCommand + " <@user>";
-    private String description = "Mutes given user";
+public class Mute implements Command {
+    private final String command = "mute";
+    private final String usage = command + " <@user>";
+    private final String description = "Mutes given user";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
+    @Override
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public String getCommand() {
-        return muteCommand;
-    }
-    
-    @Override
-    public void call(Message message) {
+    public void call(final Message message) {
         Role mutedRole = null;
-        for (Role role : message.getGuild().getRoles())
+        for (final Role role : message.getGuild().getRoles())
             if (role.getName().equalsIgnoreCase("muted")) {
                 mutedRole = role;
                 break;
@@ -60,23 +82,26 @@ public class MuteCommand implements RailgunOrder {
                 newRole.getManager().revokePermissions(Permission.values()).queue();
                 newRole.getManager().setColor(11).queue();
                 newRole.getManager().setName("Muted").queue();
-                for (TextChannel tc : message.getGuild().getTextChannels()) {
+                for (final TextChannel tc : message.getGuild().getTextChannels()) {
                     tc.createPermissionOverride(newRole).deny(Permission.MESSAGE_WRITE).queue();
                 }
-                for (VoiceChannel vc : message.getGuild().getVoiceChannels()) {
-                    vc.createPermissionOverride(newRole).deny(Permission.VOICE_SPEAK).deny(Permission.VOICE_CONNECT).queue();
+                for (final VoiceChannel vc : message.getGuild().getVoiceChannels()) {
+                    vc.createPermissionOverride(newRole).deny(Permission.VOICE_SPEAK).deny(Permission.VOICE_CONNECT)
+                            .queue();
                 }
             });
             call(message);
             return;
         }
-        if (message.getMember().hasPermission(Permission.ADMINISTRATOR) || message.getMember().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
-            if (!message.getMentionedMembers().get(0).hasPermission(Permission.MANAGE_CHANNEL) || !message.getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
+        if (message.getMember().hasPermission(Permission.ADMINISTRATOR)
+                || message.getMember().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
+            if (!message.getMentionedMembers().get(0).hasPermission(Permission.MANAGE_CHANNEL)
+                    || !message.getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
                 message.getGuild().addRoleToMember(message.getMentionedMembers().get(0), mutedRole).queue();
                 if (message.getMentionedMembers().get(0).getVoiceState().inVoiceChannel()) {
                     message.getGuild().kickVoiceMember(message.getMentionedMembers().get(0)).queue();
                 }
-                EmbedBuilder embedBuilder = new EmbedBuilder();
+                final EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(Color.PINK);
                 embedBuilder.setTitle("SILENCE!");
                 embedBuilder.setDescription(message.getAuthor().getAsMention() + " muted " + message.getMentionedUsers().get(0).getAsMention() + "!");

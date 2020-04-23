@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2020 Arseniy Graur
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package me.argraur.railgun.handlers;
 
 import java.awt.Color;
@@ -9,6 +25,8 @@ import java.io.InputStreamReader;
 import org.apache.commons.io.IOUtils;
 
 import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.HelperManager;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -17,11 +35,25 @@ public class ShellHandler implements Runnable {
     private Message message;
     private String command;
 
+    /**
+     * Default constructor
+     * @param message Discord message
+     * @param command Command name
+     */
     public ShellHandler(Message message, String command) {
         this.message = message;
         this.command = command;
     }
 
+    /**
+     * Creates embed based on input, error streams
+     * and time elapsed.
+     * @param shellCommand Shell command that was executed
+     * @param output Input stream result
+     * @param errOutput Error stream result
+     * @param time Time elapsed
+     * @return Ready embed with shell command result
+     */
     public MessageEmbed toEmbed(String shellCommand, String output, String errOutput, long time) {
         if (output.equals("")) output = "Empty";
         EmbedBuilder eb = new EmbedBuilder();
@@ -33,10 +65,14 @@ public class ShellHandler implements Runnable {
         return eb.build();
     }
 
+    /**
+     * Creates new Thread and executes the given command
+     * Then sends result as an embed generated from toEmbed(...) method.
+     */
     @Override
     public void run() {
-        if (message.getAuthor().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
-            String shellCommand = message.getContentDisplay().replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + command + " ", "");
+        if (message.getAuthor().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
+            String shellCommand = message.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(message) + command + " ", "");
             ProcessBuilder pb = new ProcessBuilder();
             if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
                 pb.command("cmd.exe", "/c", shellCommand);

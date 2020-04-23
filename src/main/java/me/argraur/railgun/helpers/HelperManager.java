@@ -16,24 +16,24 @@
 
 package me.argraur.railgun.helpers;
 
-import net.dv8tion.jda.api.entities.Message;
+import java.io.IOException;
 
-public class ImageHelper {
+import me.argraur.railgun.RailgunBot;
+
+public class HelperManager {
+    public static ColorHelper color;
+    public static GiphyHelper giphy;
+    public static PrefixHelper prefix;
+
     /**
-     * Gets clear image URL for some circumstances
-     * @param message Discord message
-     * @return Clear URL
+     * HelperManager initializer method
+     * @throws IOException Thrown by ConfigHelper.getValue(...)
      */
-    public static String getImageUrl(Message message) {
-        String imageUrl = "";
-        try {
-            imageUrl = message.getAttachments().get(0).getUrl();
-        } catch (IndexOutOfBoundsException e) {
-            imageUrl = message.getContentRaw().split(" ")[1];   
-        }
-        if (imageUrl.contains("?")) {
-            imageUrl = imageUrl.substring(0, imageUrl.indexOf("?"));
-        }
-        return imageUrl;
+    public static void init() throws IOException {
+        System.out.println("[HelperManager] Initializing...");
+        color = new ColorHelper();
+        giphy = new GiphyHelper(RailgunBot.configHelper.getValue("giphy"));
+        prefix = new PrefixHelper();
+        System.out.println("[HelperManager] Ready!");
     }
 }

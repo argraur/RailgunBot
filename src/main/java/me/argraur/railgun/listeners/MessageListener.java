@@ -17,14 +17,14 @@
 package me.argraur.railgun.listeners;
 
 import static me.argraur.railgun.RailgunBot.commandHandler;
-import static me.argraur.railgun.RailgunBot.ignoreHelper;
-import static me.argraur.railgun.RailgunBot.prefixHelper;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
+
+import me.argraur.railgun.helpers.HelperManager;
 
 public class MessageListener extends ListenerAdapter {
     /**
@@ -35,15 +35,13 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         Message msg = event.getMessage();
         String msgStr = msg.getContentRaw();
-        if (!msgStr.startsWith(prefixHelper.getPrefixForGuild(msg)))
+        if (!msgStr.startsWith(HelperManager.prefix.getPrefixForGuild(msg)))
             return;
         System.out.println("[MessageListener] Received message " + msgStr);
-        if (!ignoreHelper.checkIfIgnored(msg)) {
-            if (msgStr.split(" ")[0].contains("help")) {
-                commandHandler.onHelpCommandReceived(msg);
-                return;
-            }
-            commandHandler.onCommandReceived(msgStr, msg);
+        if (msgStr.split(" ")[0].contains("help")) {
+            commandHandler.onHelpCommandReceived(msg);
+            return;
         }
+        commandHandler.onCommandReceived(msgStr, msg);
     }
 }

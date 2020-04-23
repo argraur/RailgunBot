@@ -18,37 +18,59 @@ package me.argraur.railgun.commands.admin;
 
 import java.awt.Color;
 
+import me.argraur.railgun.interfaces.Command;
+
 import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
-public class UnMuteCommand implements RailgunOrder {
-    private String unMuteCommand = "unmute";
-    private String usage = unMuteCommand + " <@user>";
-    private String description = "Unmutes given user";
+public class Unmute implements Command {
+    private final String command = "unmute";
+    private final String usage = command + " <@user>";
+    private final String description = "Unmutes given user";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
+    @Override
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public String getCommand() {
-        return unMuteCommand;
-    }
-    
-    @Override
-    public void call(Message message) {
+    public void call(final Message message) {
         Role mutedRole = null;
-        for (Role role : message.getGuild().getRoles())
+        for (final Role role : message.getGuild().getRoles())
             if (role.getName().equalsIgnoreCase("muted")) {
                 mutedRole = role;
                 break;
@@ -56,9 +78,10 @@ public class UnMuteCommand implements RailgunOrder {
         if (mutedRole == null) {
             return;
         }
-        if (message.getMember().hasPermission(Permission.ADMINISTRATOR) || message.getMember().getId().equals(RailgunBot.configReader.getValue("goshujinsama"))) {
+        if (message.getMember().hasPermission(Permission.ADMINISTRATOR)
+                || message.getMember().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
             message.getGuild().removeRoleFromMember(message.getMentionedMembers().get(0), mutedRole).queue();
-            EmbedBuilder embedBuilder = new EmbedBuilder();
+            final EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setColor(Color.PINK);
             embedBuilder.setTitle("You can speak freely again");
             embedBuilder.setDescription(message.getAuthor().getAsMention() + " unmuted " + message.getMentionedUsers().get(0).getAsMention() + "!");

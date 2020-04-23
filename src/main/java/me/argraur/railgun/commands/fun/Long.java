@@ -16,31 +16,67 @@
 
 package me.argraur.railgun.commands.fun;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.interfaces.Command;
+
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Random;
 
-public class OCommand implements RailgunOrder {
-    private String oCommand = "long";
-    private Random random = new Random();
-    private String usage = oCommand + " <message>";
-    private String description = "Make your message looooooooooonger";
+public class Long implements Command {
+    private final String command = "long";
+    private final Random random = new Random();
+    private final String usage = command + " <message>";
+    private final String description = "Make your message looooooooooonger";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
-    public void call(Message message) {
-        StringBuilder sb = new StringBuilder();
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
+    @Override
+    public String getUsage() {
+        return usage;
+    }
+
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
+    @Override
+    public void call(final Message message) {
+        final StringBuilder sb = new StringBuilder();
         for (int i = 1; i < message.getContentRaw().split(" ").length; i++) {
             sb.append(message.getContentRaw().split(" ")[i]).append(" ");
         }
         message.getChannel().sendMessage(getOutput(sb.toString())).queue();
     }
 
-    public String getOutput(String args) {
-        String[] temp = args.split(" ");
-        StringBuilder stringBuilder = new StringBuilder();
+    public String getOutput(final String args) {
+        final String[] temp = args.split(" ");
+        final StringBuilder stringBuilder = new StringBuilder();
         StringBuilder oes = new StringBuilder();
-        for (String s : temp) {
+        for (final String s : temp) {
             for (int i = 0; i < random.nextInt(100); i++) {
                 oes.append("o");
             }
@@ -50,20 +86,5 @@ public class OCommand implements RailgunOrder {
             oes = new StringBuilder();
         }
         return stringBuilder.toString();
-    }
-
-    @Override
-    public String getCommand() {
-        return oCommand;
-    }
-
-    @Override
-    public String getUsage() {
-        return usage;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 }

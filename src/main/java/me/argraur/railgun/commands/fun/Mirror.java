@@ -16,33 +16,56 @@
 
 package me.argraur.railgun.commands.fun;
 
-import me.argraur.railgun.RailgunBot;
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.interfaces.Command;
+
+import me.argraur.railgun.helpers.HelperManager;
+
 import net.dv8tion.jda.api.entities.Message;
 
-public class MirrorCommand implements RailgunOrder {
-    private String command = "mirror";
-    private String usage = command + " <string>";
-    private String description = "Mirror given String";
+public class Mirror implements Command {
+    private final String command = "mirror";
+    private final String usage = command + " <string>";
+    private final String description = "Mirror given String";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
         return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        StringBuilder sb = new StringBuilder(message.getContentDisplay().replace(RailgunBot.prefixHelper.getPrefixForGuild(message) + command + " ", ""));
+    public void call(final Message message) {
+        final StringBuilder sb = new StringBuilder(message.getContentDisplay()
+                .replace(HelperManager.prefix.getPrefixForGuild(message) + command + " ", ""));
         message.getChannel().sendMessage(sb.reverse().toString()).queue();
     }
 }

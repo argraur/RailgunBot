@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.HelperManager;
 import me.argraur.railgun.helpers.ImageHelper;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -68,22 +68,48 @@ public class SauceNAOAPI {
         return null;
     }
 
+    /**
+     * 
+     * @param result Response from SauceNAO.com in JSON format
+     * @return Author name
+     */
     public static String getAuthor(JSONObject result) {
         return result.getJSONObject("data").getString("member_name");
     }
 
+    /**
+     * 
+     * @param result Response from SauceNAO.com in JSON format
+     * @return Similarity level
+     */
     public static String getSimilarity(JSONObject result) {
         return result.getJSONObject("header").getString("similarity");
     }
     
+    /**
+     * 
+     * @param result Response from SauceNAO.com in JSON format
+     * @return Thumbnail URL
+     */
     public static String getThumbnail(JSONObject result) {
         return result.getJSONObject("header").getString("thumbnail");
     }
 
+    /**
+     * 
+     * @param result Response from SauceNAO.com in JSON format
+     * @return Title name
+     */
     public static String getTitle(JSONObject result) {
         return result.getJSONObject("data").getString("title");
     }
 
+    /**
+     * 
+     * @param result Response from SauceNAO.com in JSON format
+     * @param index Index of result
+     * @return Source URL
+     */
     public static String getExtUrl(JSONObject result, int index) {
         return result.getJSONObject("data").getJSONArray("ext_urls").getString(index);
     }
@@ -134,7 +160,7 @@ public class SauceNAOAPI {
     public MessageEmbed toEmbed(@NotNull JSONObject result) {
         if (result != null) {
             EmbedBuilder sauce = new EmbedBuilder();
-            sauce.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(getThumbnail(result))));
+            sauce.setColor(Color.decode("#" + HelperManager.color.getColor(getThumbnail(result))));
             try {
                 sauce.setAuthor("Authored by: " + getAuthor(result));
             } catch (JSONException e) {

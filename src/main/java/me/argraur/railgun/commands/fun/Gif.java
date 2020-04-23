@@ -16,50 +16,73 @@
 
 package me.argraur.railgun.commands.fun;
 
-import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.interfaces.Command;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.Color;
 
-public class GifCommand implements RailgunOrder {
-    private String gifCommand = "gif";
-    private String usage = gifCommand + " <query> [<@user>]";
-    private String description = "Send GIF for a given query, address to `<@user>` if mentioned";
+public class Gif implements Command {
+    private final String command = "gif";
+    private final String usage = command + " <query> [<@user>]";
+    private final String description = "Send GIF for a given query, address to `<@user>` if mentioned";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
-        return gifCommand;
+        return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        String temp = message.getContentRaw().replaceAll(gifCommand + " ", "");
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+    public void call(final Message message) {
+        final String temp = message.getContentRaw().replaceAll(command + " ", "");
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
         String url = "";
         if (!message.getMentionedMembers().isEmpty()) {
             embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
             temp.replaceAll(" <@" + message.getMentionedMembers().get(0).getId() + ">", "");
         }
         try {
-            url = RailgunBot.giphyHelper.searchRandomGif(temp);
+            url = HelperManager.giphy.searchRandomGif(temp);
             embedBuilder.setImage(url);
-        } catch (IllegalStateException e) { return; }
+        } catch (final IllegalStateException e) {
+            return;
+        }
         try {
-            embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(url)));
-        } catch (ArrayIndexOutOfBoundsException e) {
+            embedBuilder.setColor(Color.decode("#" + HelperManager.color.getColor(url)));
+        } catch (final ArrayIndexOutOfBoundsException e) {
             embedBuilder.setColor(Color.PINK);
         }
         message.getChannel().sendMessage(embedBuilder.build()).queue();

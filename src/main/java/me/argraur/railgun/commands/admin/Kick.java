@@ -16,42 +16,62 @@
 
 package me.argraur.railgun.commands.admin;
 
-import static me.argraur.railgun.RailgunBot.giphyHelper;
+import me.argraur.railgun.interfaces.Command;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
-public class KickCommand implements RailgunOrder {
-    private String kickCommand = "kick";
-    private String usage = kickCommand + " <@user>";
-    private String description = "Kick `<@user>` from server";
+public class Kick implements Command {
+    private final String command = "kick";
+    private final String usage = command + " <@user>";
+    private final String description = "Kick `<@user>` from server";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
+    @Override
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public String getCommand() {
-        return kickCommand;
-    }
-
-    @Override
-    public void call(Message message) {
+    public void call(final Message message) {
         if (message.getMember().hasPermission(Permission.KICK_MEMBERS)) {
             message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
-            EmbedBuilder embedBuilder = new EmbedBuilder();
+            final EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("KICK!");
             embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
-            embedBuilder.setImage(giphyHelper.searchRandomGif("kick"));
+            embedBuilder.setImage(HelperManager.giphy.searchRandomGif("kick"));
             message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }

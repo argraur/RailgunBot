@@ -23,7 +23,7 @@ import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.helpers.HelperManager;
 import me.argraur.railgun.helpers.ImageHelper;
 
 import static me.argraur.railgun.RailgunBot.kitsuApi;
@@ -67,8 +67,8 @@ public class TraceMoeAPI {
 
     /**
      * 
-     * @param message
-     * @return
+     * @param message Discord message
+     * @return Response from trace.moe based on given message's query
      */
     public JSONObject search(Message message) {
         JSONObject response;
@@ -84,8 +84,9 @@ public class TraceMoeAPI {
 
     /**
      * 
-     * @param result
-     * @return
+     * @param result Response from trace.moe
+     * @param message Discord message
+     * @return Embed based on response
      */
     public MessageEmbed toEmbed(JSONObject result, Message message) {
         String title = result.getString("title");
@@ -95,7 +96,7 @@ public class TraceMoeAPI {
         String ytUrl = kitsuApi.getYTUrl(animeObject);
         int s = (int) result.getFloat("at");
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setColor(Color.decode("#" + RailgunBot.colorHelper.getColor(kitsuApi.getImage(animeObject))));
+        embedBuilder.setColor(Color.decode("#" + HelperManager.color.getColor(kitsuApi.getImage(animeObject))));
         embedBuilder.setTitle(kitsuApi.getEnglishTitle(animeObject) + " | " + title, kitsuApi.getKitsuUrl(animeObject));
         String description = "\n\n" + kitsuApi.bold(kitsuApi.getSource(animeObject) + " // Status: " + status.replace(Character.toString(status.charAt(0)), Character.toString(status.charAt(0)).toUpperCase()) + " // Rating: " + kitsuApi.getRating(animeObject)) + "\n";
         if (!genres.equals("Genres: "))

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigReader {
+public class ConfigHelper {
     private final Properties properties;
 
     /**
@@ -34,19 +34,10 @@ public class ConfigReader {
     }
 
     /**
-     * 
-     * @param key Key
-     * @param value New value
-     */
-    public void setValue(String key, String value) {
-        properties.setProperty(key, value);
-    }
-
-    /**
      *
      * @throws IOException If inputStream is dead
      */
-    public ConfigReader() throws IOException {
+    public ConfigHelper() throws IOException {
         properties = new Properties();
         String FILENAME = "config.properties";
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(FILENAME);

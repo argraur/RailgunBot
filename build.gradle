@@ -9,8 +9,12 @@ jar {
     }
 }
 
+shadowJar {
+    minimize()
+}
+
 group 'me.argraur'
-version '0.2.0-alpha'
+version '0.5'
 
 repositories {
     mavenCentral()
@@ -20,7 +24,9 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "net.dv8tion:JDA:4.1.1_101"
+    compile ('net.dv8tion:JDA:4.1.1_101') {
+        exclude module: 'opus-java'
+    }
     compile group: 'org.json', name: 'json', version: '20190722'
     compile 'at.mukprojects:giphy4j:1.0.1'
     compile 'ch.qos.logback:logback-classic:1.2.0'

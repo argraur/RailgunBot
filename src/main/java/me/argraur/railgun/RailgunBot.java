@@ -20,12 +20,11 @@ import me.argraur.railgun.apis.KitsuAPI;
 import me.argraur.railgun.apis.SauceNAOAPI;
 import me.argraur.railgun.apis.TraceMoeAPI;
 import me.argraur.railgun.apis.UrbanDictionaryAPI;
+
 import me.argraur.railgun.handlers.CommandHandler;
-import me.argraur.railgun.helpers.ColorHelper;
-import me.argraur.railgun.helpers.ConfigReader;
-import me.argraur.railgun.helpers.IgnoreHelper;
-import me.argraur.railgun.helpers.PrefixHelper;
-import me.argraur.railgun.helpers.GiphyHelper;
+
+import me.argraur.railgun.helpers.ConfigHelper;
+import me.argraur.railgun.helpers.HelperManager;
 
 import me.argraur.railgun.listeners.MessageListener;
 
@@ -43,11 +42,7 @@ public class RailgunBot {
     public static HashMap<String, String> channels = new HashMap<>();
 
     // Define base helpers
-    public static ConfigReader configReader;
-    public static IgnoreHelper ignoreHelper;
-    public static GiphyHelper giphyHelper;
-    public static ColorHelper colorHelper;
-    public static PrefixHelper prefixHelper;
+    public static ConfigHelper configHelper;
     
     // Define main command handlers
     public static MessageListener messageListener;
@@ -99,7 +94,7 @@ public class RailgunBot {
      * @return Returns value for given config from config.properties
      */
     public static String readConfig(String config) {
-        return configReader.getValue(config);
+        return configHelper.getValue(config);
     }
 
     /**
@@ -107,12 +102,9 @@ public class RailgunBot {
      */
     public static void init() {
         try {
-            configReader = new ConfigReader();
+            configHelper = new ConfigHelper();
             setCommandPrefix();
-            ignoreHelper = new IgnoreHelper();
-            giphyHelper = new GiphyHelper(readConfig("giphy"));
-            colorHelper = new ColorHelper();
-            prefixHelper = new PrefixHelper();
+            HelperManager.init();
             commandHandler = new CommandHandler();
             kitsuApi = new KitsuAPI();
             urbanDictionaryApi = new UrbanDictionaryAPI();

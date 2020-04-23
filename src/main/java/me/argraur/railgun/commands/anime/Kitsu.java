@@ -16,37 +16,58 @@
 
 package me.argraur.railgun.commands.anime;
 
-import static me.argraur.railgun.RailgunBot.prefixHelper;
-import static me.argraur.railgun.RailgunBot.kitsuApi;
+import me.argraur.railgun.interfaces.Command;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
+
+import static me.argraur.railgun.RailgunBot.kitsuApi;
 
 import net.dv8tion.jda.api.entities.Message;
 
-public class KitsuCommand implements RailgunOrder {
-    private String kitsuCommand = "kitsu";
-    private String usage = kitsuCommand + " genre/search <genre>/<query>";
-    private String description = "Search anime by query or genre!";
+public class Kitsu implements Command {
+    private final String command = "kitsu";
+    private final String usage = command + " genre/search <genre>/<query>";
+    private final String description = "Search anime by query or genre!";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
-        return kitsuCommand;
+        return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
+    public void call(final Message message) {
         String temp = message.getContentRaw();
-        temp = temp.substring((prefixHelper.getPrefixForGuild(message) + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
+        temp = temp.substring((HelperManager.prefix.getPrefixForGuild(message) + getCommand() + " " + message.getContentRaw().split(" ")[1]).length());
         if (message.getContentRaw().split(" ")[1].equals("genre")) {
             message.getChannel().sendMessage(kitsuApi.toEmbed(kitsuApi.searchRandomByGenre(message.getContentRaw().split(" ")[2]))).queue();
         } else if (message.getContentRaw().split(" ")[1].equals("search")) {

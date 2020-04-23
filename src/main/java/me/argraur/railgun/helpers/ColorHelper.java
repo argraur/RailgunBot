@@ -32,11 +32,19 @@ import okhttp3.Response;
 public class ColorHelper {
     private OkHttpClient okHttpClient;
 
+    /**
+     * Default constructor.
+     */
     public ColorHelper() {
         okHttpClient = new OkHttpClient();
         System.out.println("[ColorHelper] Ready!");
     }
 
+    /**
+     * Gets dominant color from an image in HEX format
+     * @param url Image URL
+     * @return Color string in HEX format
+     */
     public String getColor(String url) {
         System.out.println("[ColorHelper] getColor(" + url + ")");
         InputStream inputStream = null;

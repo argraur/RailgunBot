@@ -5,7 +5,6 @@
 		}
 	],
 	"settings": {
-		"java.configuration.updateBuildConfiguration": "interactive",
-		"java.dependency.syncWithFolderExplorer": false
+		"java.configuration.updateBuildConfiguration": "interactive"
 	}
 }

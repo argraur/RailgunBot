@@ -14,39 +14,52 @@
  * limitations under the License.
  */
 
-package me.argraur.railgun.commands.admin;
+package me.argraur.railgun.commands;
 
-import static me.argraur.railgun.RailgunBot.ignoreHelper;
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.interfaces.Command;
 
 import net.dv8tion.jda.api.entities.Message;
 
-public class IgnoreCommand implements RailgunOrder {
-    private String ignoreCommand = "ignore";
-    public static String senpaiId = "356723086009171969";
-    public Message msg;
-    private String usage = ignoreCommand + " <@user>";
-    private String description = "Disallow `<@user>` to use the bot";
+public class Example implements Command {
+    // @param String, command name
+    private String command = "example";
+    private String usage = "";
+    private String description = "";
+    
+    /**
+     * Returns command's name
+     * 
+     * @return command name
+     */
+    @Override
+    public String getCommand() {
+        return command;
+    }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with exampleCommand
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        if (message.getAuthor().getId().equals(senpaiId) && !message.getMentionedUsers().get(0).getId().equals(senpaiId)) {
-            ignoreHelper.addIgnored(message.getMentionedUsers().get(0).getId(), message);
-        }
-    }
-
-    @Override
-    public String getCommand() {
-        return ignoreCommand;
-    }
+    public void call(Message message) {}
 }

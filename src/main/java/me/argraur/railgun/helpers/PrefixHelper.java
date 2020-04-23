@@ -65,7 +65,7 @@ public class PrefixHelper {
 
     /**
      * Gets guild's custom prefix
-     * @param message
+     * @param message Discord message
      * @return Prefix if set, return default if not
      */
     public String getPrefixForGuild(Message message) {
@@ -79,7 +79,7 @@ public class PrefixHelper {
 
     /**
      * Sets custom prefix for a guild
-     * @param message
+     * @param message Discord Message
      * @param prefix New prefix
      */
     public void setPrefixForGuild(Message message, String prefix) {

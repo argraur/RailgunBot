@@ -20,48 +20,69 @@ import static me.argraur.railgun.RailgunBot.sauceNAOApi;
 
 import java.awt.Color;
 
+import me.argraur.railgun.interfaces.Command;
+
 import me.argraur.railgun.helpers.ImageHelper;
-import me.argraur.railgun.interfaces.RailgunOrder;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-public class SauceCommand implements RailgunOrder {
-    private String sauceCommand = "sauce";
-    private String usage = sauceCommand + " <url to image> OR attach image";
-    private String description = "Search for source of given anime art!";
+public class Sauce implements Command {
+    private final String command = "sauce";
+    private final String usage = command + " <url to image> OR attach image";
+    private final String description = "Search for source of given anime art!";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
-        return sauceCommand;
+        return command;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        String imageUrl = ImageHelper.getImageUrl(message);
+    public void call(final Message message) {
+        final String imageUrl = ImageHelper.getImageUrl(message);
         System.out.println(imageUrl);
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Processing image...");
         embedBuilder.setDescription(message.getAuthor().getAsMention());
         embedBuilder.setImage(imageUrl);
         embedBuilder.setColor(Color.PINK);
-        message.getChannel().sendMessage(embedBuilder.build()).queue(
-            (response) -> {
-                try {
-                    MessageEmbed result = sauceNAOApi.toEmbed(sauceNAOApi.search(message));
-                    message.delete().queue();
-                    response.editMessage(result).queue();
-                } catch (Exception e) {
+        message.getChannel().sendMessage(embedBuilder.build()).queue((response) -> {
+            try {
+                final MessageEmbed result = sauceNAOApi.toEmbed(sauceNAOApi.search(message));
+                message.delete().queue();
+                response.editMessage(result).queue();
+            } catch (final Exception e) {
                     e.printStackTrace();
                     response.editMessage(embedBuilder.setTitle("Processing failed. No source links were found.").build()).queue();
                 }     

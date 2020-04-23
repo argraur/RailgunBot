@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.Message;
 /**
  * Universal Interface for all Railgun commands
  */
-public interface RailgunOrder {
+public interface Command {
     /**
      *
      * @return Returns command name String
@@ -30,18 +30,18 @@ public interface RailgunOrder {
 
     /**
      *
-     * @return Returns StringBuilder with help
+     * @return Returns String with command's usage
      */
     String getUsage();
 
     /**
      * 
-     * @return Returns String with description.
+     * @return Returns String with command's description.
      */
     String getDescription();
 
     /**
-     *
+     * Called when received command.
      * @param args Message
      */
     void call(Message message);

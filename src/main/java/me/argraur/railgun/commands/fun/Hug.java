@@ -16,40 +16,61 @@
 
 package me.argraur.railgun.commands.fun;
 
-import static me.argraur.railgun.RailgunBot.giphyHelper;
+import me.argraur.railgun.interfaces.Command;
 
-import me.argraur.railgun.interfaces.RailgunOrder;
+import me.argraur.railgun.helpers.HelperManager;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
 import static java.awt.Color.PINK;
 
-public class HugCommand implements RailgunOrder {
-    private String hugCommand = "hug";
-    private String usage = hugCommand + " <@user>";
-    private String description = "Hug a `<@user>` <3";
+public class Hug implements Command {
+    private final String hugCommand = "hug";
+    private final String usage = hugCommand + " <@user>";
+    private final String description = "Hug a `<@user>` <3";
 
+    /**
+     * Returns command name.
+     * 
+     * @return command name
+     */
     @Override
     public String getCommand() {
         return hugCommand;
     }
 
+    /**
+     * Returns command's usage.
+     * 
+     * @return usage
+     */
     @Override
     public String getUsage() {
         return usage;
     }
 
+    /**
+     * Returns command's description.
+     * 
+     * @return description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Called by CommandHandler when received message with command
+     * 
+     * @param Message object
+     */
     @Override
-    public void call(Message message) {
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+    public void call(final Message message) {
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("HUG YOU!");
         embedBuilder.setDescription("<@" + message.getMentionedMembers().get(0).getId() + ">");
-        embedBuilder.setImage(giphyHelper.searchRandomGif("anime hug"));
+        embedBuilder.setImage(HelperManager.giphy.searchRandomGif("anime hug"));
         embedBuilder.setColor(PINK);
         message.getChannel().sendMessage(embedBuilder.build()).queue();
     }

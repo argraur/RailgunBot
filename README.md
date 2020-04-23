@@ -39,59 +39,81 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 ### Available configurations:
 
-`token`: Your Discord Bot token
+`activity`: Set bot activity (e.g. `anime games`)
+
+`command_prefix`: Prefix for all commands received by a bot (default is '.')
 
 `giphy`: Giphy Developer token
 
-`command_prefix`: Prefix for all commands received by a bot (default is '>')
+`goshujinsama`: Bot's master ID. Allows bot's master to override some ADMINISTRATOR-only commands and use ignore/pardon commands.
 
-`activity`: Set bot activity (e.g. `anime games`)
+`token`: Your Discord Bot token
 
 ## Commands
 
 ### Available commands at the moment:
 
-`>8ball <question>` - Get answers to all of your yes/no questions!
+`.8ball <question>` - Get answers to all of your yes/no questions!
 
-`>ban <mention>` - Bans mentioned user (Ban permission required, for a bot and command issuer)
+`.ban <mention>` - Bans mentioned user (Ban permission required, for a bot and command issuer)
 
-`>calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
+`.calc` - Simple calculator. Example: >calc 2 * 2 * 2 (spaces are mandatory!)
 
-`>coin` - Flip a coin!
+`.coin` - Flip a coin!
 
-`>color [attach image or url]` - Gets dominating color out of given image.
+`.color [attach image or url]` - Gets dominating color out of given image.
 
-`>del [message link]` - Delete given message. (Message manage permission required, for a bot and command issuer)
+`.del [message link]` - Delete given message. (Message manage permission required, for a bot and command issuer)
 
-`>gif <query> [mention]` - Search gif for a given query
+`.gif <query> [mention]` - Search gif for a given query
 
-`>hug <mention>` - Hugs the mentioned user!
+`.hug <mention>` - Hugs the mentioned user!
 
-`>ignore <mention>` - Ignores given user.
+`.ignore <mention>` - Ignores given user.
 
-`>kick <mention>` - Kicks mentioned user. (Kick permission required, for a bot and command issuer)
+`.juggle` - Juggles members in a voice chat across all voice channels in the guild! DANGEROUS!
 
-`>kitsu genre <genre>` - Sends random anime of a given genre.
+`.kick <mention>` - Kicks mentioned user. (Kick permission required, for a bot and command issuer)
 
-`>kitsu search <query>` - Searches anime by given query.
+`.kitsu genre <genre>` - Sends random anime of a given genre.
 
-`>mock` - mockS GiveN mESsAge
+`.kitsu search <query>` - Searches anime by given query.
 
-`>long` - loooooooooooooooooong
+`.mirror` - !egassem nevig sorriM
 
-`>pardon <mention>` - Stops ignoring given user.
+`.mock` - mockS GiveN mESsAge
 
-`>ping` - Pong!
+`.mute <user>` - Mutes given user in current guild
 
-`>sauce [attach image or pass url]` - Searches for art sauce
+`.long` - loooooooooooooooooong
 
-`>slap <mention>` - SLAP THAT LOSER!
+`.pardon <mention>` - Stops ignoring given user.
 
-`>ud <word or expression>` - Search for given word or expression on UrbanDictionary
+`.ping` - Pong!
 
-`>wait [attached image]` - WAIT: What Anime Is This? Searches for anime using given screenshot from anime!
+`.prefix <prefix>` - Changes prefix in current guild.
 
-`>help` - returns bot help
+`.sauce [attach image or pass url]` - Searches for art sauce
+
+`.shell <shell command>` - Executes shell command. Only for bot's master!
+
+`.slap <mention>` - SLAP THAT LOSER!
+
+`.ud <word or expression>` - Search for given word or expression on UrbanDictionary
+
+`.unmute <user>` - Unmutes given user in current guild
+
+`.wait [attached image]` - WAIT: What Anime Is This? Searches for anime using given screenshot from anime!
+
+`.help` - Returns command list
+
+`.help <command>` - Returns help for a given command
+
+
+## For mute/unmute
+
+The bot will create 'Muted' role whenever any admin runs `.mute` command.
+But the bot won't give 'Muted' role any priority, so guild's admin should do it manually.
 
 ## Built with
 

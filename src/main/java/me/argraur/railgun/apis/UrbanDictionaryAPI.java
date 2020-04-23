@@ -32,6 +32,9 @@ import okhttp3.Response;
 public class UrbanDictionaryAPI {
     private OkHttpClient okHttpClient;
 
+    /**
+     * Default constructor
+     */
     public UrbanDictionaryAPI() {
         okHttpClient = new OkHttpClient();
         System.out.println("UrbanDictionaryAPI is ready!");
@@ -56,22 +59,47 @@ public class UrbanDictionaryAPI {
         return null;
     }
 
+    /**
+     * 
+     * @param result Response from UD in JSON format.
+     * @return Word string
+     */
     public String getWord(JSONObject result) {
         return result.getString("word");
     } 
 
+    /**
+     * 
+     * @param result Response from UD in JSON format.
+     * @return Definition string
+     */
     public String getDefinition(JSONObject result) {
         return result.getString("definition");
     }
 
+    /**
+     * 
+     * @param result Response from UD in JSON format.
+     * @return Author name
+     */
     public String getAuthor(JSONObject result) {
         return result.getString("author");
     }
 
+    /**
+     * 
+     * @param result Response from UD in JSON format.
+     * @return Example usage of word
+     */
     public String getExample(JSONObject result) {
         return result.getString("example");
     }
 
+    /**
+     * 
+     * @param query Search query
+     * @return Response from UD in JSON format based on given query.
+     */
     public JSONObject search(String query) {
         StringBuilder urlSb = new StringBuilder("http://api.urbandictionary.com/v0/define?term=");
         urlSb.append(query);
@@ -81,6 +109,11 @@ public class UrbanDictionaryAPI {
         return result;
     }
 
+    /**
+     * 
+     * @param result
+     * @return
+     */
     public MessageEmbed toEmbed(JSONObject result) {
         String word = getWord(result);
         String definition = getDefinition(result);
