@@ -79,6 +79,7 @@ public class CommandHandler {
         registerCommand(new JuggleCommand());
         registerCommand(new KickCommand());
         registerCommand(new KitsuCommand());
+        registerCommand(new MirrorCommand());
         registerCommand(new MockCommand());
         registerCommand(new MuteCommand());
         registerCommand(new OCommand());
