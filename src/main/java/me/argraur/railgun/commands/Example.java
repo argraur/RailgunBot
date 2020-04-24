@@ -58,7 +58,7 @@ public class Example implements Command {
 
     /**
      * Called by CommandHandler when received message with exampleCommand
-     * @param Message object
+     * @param message object
      */
     @Override
     public void call(Message message) {}

@@ -42,7 +42,7 @@ public interface Command {
 
     /**
      * Called when received command.
-     * @param args Message
+     * @param message Discord message
      */
     void call(Message message);
 }

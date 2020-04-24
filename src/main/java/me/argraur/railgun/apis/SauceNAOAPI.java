@@ -154,7 +154,7 @@ public class SauceNAOAPI {
 
     /**
      * Convert result to formatted embed
-     * @param results JSON object from SauceNAO with a result
+     * @param result JSON object from SauceNAO with a result
      * @return Formatted, ready-for-send embed.
      */
     public MessageEmbed toEmbed(@NotNull JSONObject result) {

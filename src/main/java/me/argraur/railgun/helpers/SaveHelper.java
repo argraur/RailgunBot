@@ -27,7 +27,6 @@ public class SaveHelper {
      * Writes an Object to a file
      * @param o Object to be written to file
      * @param file Target file for object
-     * @throws IOException If file stream fails
      */
     public static Thread writeObject(Object o, String file) {
         return new Thread(new Runnable() {

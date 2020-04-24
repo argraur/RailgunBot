@@ -34,6 +34,7 @@ public class MessageListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         Message msg = event.getMessage();
+        System.out.println("[MessageListener] Guild ID: " + msg.getGuild().getId());
         String msgStr = msg.getContentRaw();
         if (!msgStr.startsWith(HelperManager.prefix.getPrefixForGuild(msg)))
             return;

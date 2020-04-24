@@ -44,7 +44,7 @@ public class Id implements Command {
     /**
      * Called by CommandHandler when received message with command
      * 
-     * @param Message object
+     * @param message object
      */
     @Override
     public void call(Message message) {

@@ -47,8 +47,9 @@ public class CommandHandler {
     }
 
     /**
-     *
-     * @param command Called when command received.
+     * Called when command received.
+     * @param command Received command name
+     * @param message Discord Message
      */
     public void onCommandReceived(String command, Message message) {
         String temp = command.split(" ")[0].replace(HelperManager.prefix.getPrefixForGuild(message), "");
@@ -57,8 +58,8 @@ public class CommandHandler {
     }
 
     /**
-     * 
-     * @param message
+     * Called when help command received
+     * @param message Discord Message
      */
     public void onHelpCommandReceived(Message message) {
         System.out.println("[CommandHandler] Calling temporary help command");
@@ -67,7 +68,6 @@ public class CommandHandler {
 
     /**
      * Default constructor.
-     * @param messageChannel Registers commands.
      */
     public CommandHandler() {
         registerCommand(new Ball());
@@ -100,10 +100,10 @@ public class CommandHandler {
 
     /**
      *
-     * @param command Command string received from message
+     * @param message Discord message
      * @return Whether command exist or not
      */
-    public boolean checkIfCommandExists(Message msg) {
-        return commandsMap.containsKey(msg.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(msg), ""));
+    public boolean checkIfCommandExists(Message message) {
+        return commandsMap.containsKey(message.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(message), ""));
     }
 }
