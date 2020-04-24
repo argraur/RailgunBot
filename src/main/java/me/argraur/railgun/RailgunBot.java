@@ -20,7 +20,7 @@ import me.argraur.railgun.apis.KitsuAPI;
 import me.argraur.railgun.apis.SauceNAOAPI;
 import me.argraur.railgun.apis.TraceMoeAPI;
 import me.argraur.railgun.apis.UrbanDictionaryAPI;
-
+import me.argraur.railgun.apis.jenkins.Jenkins;
 import me.argraur.railgun.handlers.CommandHandler;
 
 import me.argraur.railgun.helpers.ConfigHelper;
@@ -49,6 +49,7 @@ public class RailgunBot {
     public static CommandHandler commandHandler;
 
     // Define additional API classes
+    public static Jenkins jenkins;
     public static KitsuAPI kitsuApi;
     public static UrbanDictionaryAPI urbanDictionaryApi;
     public static SauceNAOAPI sauceNAOApi;
@@ -106,6 +107,7 @@ public class RailgunBot {
             setCommandPrefix();
             HelperManager.init();
             commandHandler = new CommandHandler();
+            jenkins = new Jenkins();
             kitsuApi = new KitsuAPI();
             urbanDictionaryApi = new UrbanDictionaryAPI();
             sauceNAOApi = new SauceNAOAPI();

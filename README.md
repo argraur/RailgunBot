@@ -47,6 +47,12 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `goshujinsama`: Bot's master ID. Allows bot's master to override some ADMINISTRATOR-only commands and use ignore/pardon commands.
 
+`jenkins.url`: Jenkins server URL
+
+`jenkins.user`: Jenkins username
+
+`jenkins.pass`: Jenkins user password or token (recommended)
+
 `token`: Your Discord Bot token
 
 ## Commands
@@ -70,6 +76,10 @@ Configurations are located in `src/main/resources/config.properties` file.
 `.hug <mention>` - Hugs the mentioned user!
 
 `.ignore <mention>` - Ignores given user.
+
+`.jenkins build <jobname>` - Builds given Jenkins job
+
+`.jenkins status <jobname>` - Returns status of last build of given job.
 
 `.juggle` - Juggles members in a voice chat across all voice channels in the guild! DANGEROUS!
 

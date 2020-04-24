@@ -22,6 +22,7 @@ import me.argraur.railgun.commands.fun.*;
 import me.argraur.railgun.commands.utils.*;
 
 import me.argraur.railgun.commands.fun.Long;
+import me.argraur.railgun.commands.jenkins.Jenkins;
 import me.argraur.railgun.commands.master.Shell;
 import me.argraur.railgun.commands.pseudo.Help;
 
@@ -78,6 +79,7 @@ public class CommandHandler {
         registerCommand(new Gif());
         registerCommand(new Hug());
         registerCommand(new Id());
+        registerCommand(new Jenkins());
         registerCommand(new Juggle());
         registerCommand(new Kick());
         registerCommand(new Kitsu());

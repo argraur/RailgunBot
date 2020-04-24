@@ -32,5 +32,6 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.0'
     compile 'ch.qos.logback:logback-core:1.2.0'
     compile 'de.androidpit:color-thief:1.1.2'
+    compile 'com.offbytwo.jenkins:jenkins-client:0.3.8'
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
 }
