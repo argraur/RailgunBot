@@ -101,6 +101,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `.ping` - Pong!
 
+`.purge <n>` - Purges last n messages.
+
 `.prefix <prefix>` - Changes prefix in current guild.
 
 `.sauce [attach image or pass url]` - Searches for art sauce

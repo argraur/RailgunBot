@@ -89,6 +89,7 @@ public class CommandHandler {
         registerCommand(new Long());
         registerCommand(new Ping());
         registerCommand(new Prefix());
+        registerCommand(new Purge());
         registerCommand(new Sauce());
         registerCommand(new Shell());
         registerCommand(new Slap());
