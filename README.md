@@ -24,13 +24,19 @@ git clone https://github.com/argraur/RailgunBot -b master
 
 Linux & macOS:
 ```
-cd RailgunBot; ./gradlew build
+cd RailgunBot; ./gradlew build shadowJar
 ```
 
 Windows:
 ```
 cd RailgunBot\
-.\gradlew.bat build
+.\gradlew.bat build shadowJar
+```
+
+### Running
+
+```
+java -jar build/libs/railgunbot-1.0-all.jar
 ```
 
 ## Configuration
@@ -91,6 +97,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `.kitsu search <query>` - Searches anime by given query.
 
+`.level <command>` - Returns access level for given command.
+
 `.mirror` - !egassem nevig sorriM
 
 `.mock` - mockS GiveN mESsAge
@@ -104,6 +112,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 `.ping` - Pong!
 
 `.purge <n>` - Purges last n messages.
+
+`.purge <link>` - Purges all messages after given message link.
 
 `.prefix <prefix>` - Changes prefix in current guild.
 
@@ -134,6 +144,7 @@ But the bot won't give 'Muted' role any priority, so guild's admin should do it 
 * [Gradle](https://github.com/gradle/gradle) - Build automation tool
 * [JDA](https://github.com/DV8FromTheWorld/JDA) - Java wrapper for Discord
 * [Giphy4J](https://github.com/keshrath/Giphy4J) - Java wrapper for Giphy
+* [Jenkins Java Client API](https://github.com/jenkinsci/java-client-api) - Java wrapper for Jenkins
 * [OkHttp](https://github.com/square/okhttp) - HTTP client for Java
 * [ColorThief](https://github.com/SvenWoltmann/color-thief-java) - Dominant color extractor for Java
 * [Kitsu](https://kitsu.io) - Anime exploring site
