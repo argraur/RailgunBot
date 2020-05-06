@@ -37,7 +37,7 @@ public class Level {
      * 
      */
     public static boolean checkLevel(Message message, Command command) {
-        if (message.getMember().getId() == RailgunBot.configHelper.getValue("goshujinsama"))
+        if (message.getAuthor().getId().equals(RailgunBot.configHelper.getValue("goshujinsama")))
             return true;
         switch (command.getLevel()) {
             case OWNER:
