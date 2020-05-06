@@ -27,12 +27,13 @@ import me.argraur.railgun.commands.master.Shell;
 import me.argraur.railgun.commands.pseudo.Help;
 
 import me.argraur.railgun.helpers.HelperManager;
-
 import me.argraur.railgun.interfaces.Command;
 
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.LinkedHashMap;
+
+import javax.annotation.Nonnull;
 
 public class CommandHandler {
     private LinkedHashMap<String, Command> commandsMap = new LinkedHashMap<>();
@@ -54,7 +55,9 @@ public class CommandHandler {
     public void onCommandReceived(String command, Message message) {
         String temp = command.split(" ")[0].replace(HelperManager.prefix.getPrefixForGuild(message), "");
         System.out.println("[CommandHandler] Calling command " + temp);
-        commandsMap.get(temp).call(message);
+        Command toCall = getCommand(temp);
+        if (me.argraur.railgun.level.Level.checkLevel(message, toCall))
+            toCall.call(message);
     }
 
     /**
@@ -87,6 +90,7 @@ public class CommandHandler {
         registerCommand(new Mirror());
         registerCommand(new Mock());
         registerCommand(new Mute());
+        registerCommand(new Level());
         registerCommand(new Long());
         registerCommand(new Ping());
         registerCommand(new Prefix());
@@ -107,5 +111,14 @@ public class CommandHandler {
      */
     public boolean checkIfCommandExists(Message message) {
         return commandsMap.containsKey(message.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(message), ""));
+    }
+
+    public Command getCommand(@Nonnull String command) {
+        try {
+            return commandsMap.get(command);
+        } catch (Exception e) {
+            System.out.println("[CommandHandler] Command not found!");
+        }
+        return null;
     }
 }

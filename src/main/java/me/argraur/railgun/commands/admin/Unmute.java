@@ -20,10 +20,9 @@ import java.awt.Color;
 
 import me.argraur.railgun.interfaces.Command;
 
-import me.argraur.railgun.RailgunBot;
+import me.argraur.railgun.level.Level;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 
@@ -31,6 +30,7 @@ public class Unmute implements Command {
     private final String command = "unmute";
     private final String usage = command + " <@user>";
     private final String description = "Unmutes given user";
+    private final int level = Level.ADMIN;
 
     /**
      * Returns command name.
@@ -63,6 +63,16 @@ public class Unmute implements Command {
     }
 
     /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
      * Called by CommandHandler when received message with command
      * 
      * @param message object
@@ -78,14 +88,11 @@ public class Unmute implements Command {
         if (mutedRole == null) {
             return;
         }
-        if (message.getMember().hasPermission(Permission.ADMINISTRATOR)
-                || message.getMember().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
-            message.getGuild().removeRoleFromMember(message.getMentionedMembers().get(0), mutedRole).queue();
-            final EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setColor(Color.PINK);
-            embedBuilder.setTitle("You can speak freely again");
-            embedBuilder.setDescription(message.getAuthor().getAsMention() + " unmuted " + message.getMentionedUsers().get(0).getAsMention() + "!");
-            message.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
+        message.getGuild().removeRoleFromMember(message.getMentionedMembers().get(0), mutedRole).queue();
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(Color.PINK);
+        embedBuilder.setTitle("You can speak freely again");
+        embedBuilder.setDescription(message.getAuthor().getAsMention() + " unmuted " + message.getMentionedUsers().get(0).getAsMention() + "!");
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

@@ -21,13 +21,14 @@ import me.argraur.railgun.interfaces.Command;
 import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.commands.jenkins.subcommands.JenkinsBuild;
 import me.argraur.railgun.commands.jenkins.subcommands.JenkinsBuildStatus;
-
+import me.argraur.railgun.level.Level;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Jenkins implements Command {
     private final String command = "jenkins";
     private final String usage = command + " status/build <jobname>";
     private final String description = "Builds given Jenkins job or gets status for it";
+    private final int level = Level.OWNER;
 
     /**
      * Returns command name.
@@ -57,6 +58,16 @@ public class Jenkins implements Command {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
     }
 
     /**

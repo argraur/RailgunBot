@@ -17,16 +17,17 @@
 package me.argraur.railgun.commands.admin;
 
 import me.argraur.railgun.helpers.HelperManager;
+import me.argraur.railgun.level.Level;
 import me.argraur.railgun.interfaces.Command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Ban implements Command {
     private final String command = "ban";
     private final String usage = command + " <@user>";
     private final String description = "Bans mentioned user.";
+    private final int level = Level.BAN;
 
     /**
      * Returns command name.
@@ -59,6 +60,16 @@ public class Ban implements Command {
     }
 
     /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
      * Called by CommandHandler when received message with command
      * 
      * @param message object
@@ -66,13 +77,11 @@ public class Ban implements Command {
     @Override
     public void call(final Message message) {
         final String args = message.getContentRaw();
-        if (message.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-            message.getGuild().ban(message.getMentionedMembers().get(0), 0).queue();
-            final EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("BAN!");
-            embedBuilder.setDescription("Sayounara, mou kunaide kudasai " + args.split(" ")[1] + "!");
-            embedBuilder.setImage(HelperManager.giphy.searchRandomGif("ban"));
-            message.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
+        message.getGuild().ban(message.getMentionedMembers().get(0), 0).queue();
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("BAN!");
+        embedBuilder.setDescription("Sayounara, mou kunaide kudasai " + args.split(" ")[1] + "!");
+        embedBuilder.setImage(HelperManager.giphy.searchRandomGif("ban"));
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

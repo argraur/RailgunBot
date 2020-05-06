@@ -3,13 +3,14 @@ package me.argraur.railgun.commands.master;
 import me.argraur.railgun.interfaces.Command;
 
 import me.argraur.railgun.handlers.ShellHandler;
-
+import me.argraur.railgun.level.Level;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Shell implements Command {
     private final String command = "shell";
     private final String usage = command + " <command>";
     private final String description = "Execute shell command (Only for mine goshujin~!)";
+    private final int level = Level.OWNER;
 
     /**
      * Returns command name.
@@ -39,6 +40,16 @@ public class Shell implements Command {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
     }
 
     /**

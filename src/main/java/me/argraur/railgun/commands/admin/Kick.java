@@ -19,15 +19,16 @@ package me.argraur.railgun.commands.admin;
 import me.argraur.railgun.interfaces.Command;
 
 import me.argraur.railgun.helpers.HelperManager;
+import me.argraur.railgun.level.Level;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Kick implements Command {
     private final String command = "kick";
     private final String usage = command + " <@user>";
     private final String description = "Kick `<@user>` from server";
+    private final int level = Level.KICK;
 
     /**
      * Returns command name.
@@ -60,19 +61,27 @@ public class Kick implements Command {
     }
 
     /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
      * Called by CommandHandler when received message with command
      * 
      * @param message object
      */
     @Override
     public void call(final Message message) {
-        if (message.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
-            final EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("KICK!");
-            embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
-            embedBuilder.setImage(HelperManager.giphy.searchRandomGif("kick"));
-            message.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
+        message.getGuild().kick(message.getMentionedMembers().get(0)).queue();
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("KICK!");
+        embedBuilder.setDescription("Sayounara " + message.getContentRaw().split(" ")[1] + "!");
+        embedBuilder.setImage(HelperManager.giphy.searchRandomGif("kick"));
+        message.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

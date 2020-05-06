@@ -18,9 +18,8 @@ package me.argraur.railgun.commands.admin;
 
 import java.awt.Color;
 
+import me.argraur.railgun.level.Level;
 import me.argraur.railgun.interfaces.Command;
-
-import me.argraur.railgun.RailgunBot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -33,6 +32,7 @@ public class Mute implements Command {
     private final String command = "mute";
     private final String usage = command + " <@user>";
     private final String description = "Mutes given user";
+    private final int level = Level.ADMIN;
 
     /**
      * Returns command name.
@@ -65,6 +65,16 @@ public class Mute implements Command {
     }
 
     /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
      * Called by CommandHandler when received message with command
      * 
      * @param message object
@@ -93,20 +103,17 @@ public class Mute implements Command {
             call(message);
             return;
         }
-        if (message.getMember().hasPermission(Permission.ADMINISTRATOR)
-                || message.getMember().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
-            if (!message.getMentionedMembers().get(0).hasPermission(Permission.MANAGE_CHANNEL)
-                    || !message.getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
-                message.getGuild().addRoleToMember(message.getMentionedMembers().get(0), mutedRole).queue();
-                if (message.getMentionedMembers().get(0).getVoiceState().inVoiceChannel()) {
-                    message.getGuild().kickVoiceMember(message.getMentionedMembers().get(0)).queue();
-                }
-                final EmbedBuilder embedBuilder = new EmbedBuilder();
-                embedBuilder.setColor(Color.PINK);
-                embedBuilder.setTitle("SILENCE!");
-                embedBuilder.setDescription(message.getAuthor().getAsMention() + " muted " + message.getMentionedUsers().get(0).getAsMention() + "!");
-                message.getChannel().sendMessage(embedBuilder.build()).queue();
+        if (!message.getMentionedMembers().get(0).hasPermission(Permission.MANAGE_CHANNEL)
+                || !message.getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
+            message.getGuild().addRoleToMember(message.getMentionedMembers().get(0), mutedRole).queue();
+            if (message.getMentionedMembers().get(0).getVoiceState().inVoiceChannel()) {
+                message.getGuild().kickVoiceMember(message.getMentionedMembers().get(0)).queue();
             }
+            final EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setColor(Color.PINK);
+            embedBuilder.setTitle("SILENCE!");
+            embedBuilder.setDescription(message.getAuthor().getAsMention() + " muted " + message.getMentionedUsers().get(0).getAsMention() + "!");
+            message.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }
 }

@@ -24,11 +24,13 @@ import net.dv8tion.jda.api.entities.Message;
 import java.awt.Color;
 
 import me.argraur.railgun.helpers.HelperManager;
+import me.argraur.railgun.level.Level;
 
 public class Prefix implements Command {
     private final String command = "prefix";
     private final String usage = command + " <new prefix>";
     private final String description = "Sets new prefix for the guild";
+    private final int level = Level.ADMIN;
 
     /**
      * Returns command name.
@@ -58,6 +60,16 @@ public class Prefix implements Command {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
     }
 
     /**

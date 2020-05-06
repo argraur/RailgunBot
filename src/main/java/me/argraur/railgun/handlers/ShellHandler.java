@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 
 import org.apache.commons.io.IOUtils;
 
-import me.argraur.railgun.RailgunBot;
 import me.argraur.railgun.helpers.HelperManager;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -71,51 +70,49 @@ public class ShellHandler implements Runnable {
      */
     @Override
     public void run() {
-        if (message.getAuthor().getId().equals(RailgunBot.configHelper.getValue("goshujinsama"))) {
-            String shellCommand = message.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(message) + command + " ", "");
-            ProcessBuilder pb = new ProcessBuilder();
-            if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
-                pb.command("cmd.exe", "/c", shellCommand);
+        String shellCommand = message.getContentDisplay().replace(HelperManager.prefix.getPrefixForGuild(message) + command + " ", "");
+        ProcessBuilder pb = new ProcessBuilder();
+        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+            pb.command("cmd.exe", "/c", shellCommand);
+        } else {
+            pb.command("bash", "-c", shellCommand);
+        }
+        try {
+            long time = System.currentTimeMillis();
+            Process p = pb.start();
+            StringBuilder output = new StringBuilder();
+            StringBuilder errOutput = new StringBuilder();
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(p.getInputStream())
+            );
+            BufferedReader errReader = new BufferedReader(
+                new InputStreamReader(p.getErrorStream())
+            );
+            String line, err;
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+            while ((err = errReader.readLine()) != null) {
+                errOutput.append(err + "\n");
+            }
+            p.waitFor();
+            if (errOutput.toString().equals(""))
+                errOutput.append("Empty");
+            if (output.toString().length() < 1024) {
+                message.getChannel().sendMessage(toEmbed(shellCommand, output.toString(), errOutput.toString(), time)).queue();
             } else {
-                pb.command("bash", "-c", shellCommand);
+                output.append("\nTime Elapsed: " + (System.currentTimeMillis() - time) + "ms\n");
+                InputStream is = IOUtils.toInputStream(output.toString(), "UTF-8");
+                message.getChannel().sendFile(is, "output.txt").queue();
+                if (!errOutput.toString().equals("Empty")) {
+                    InputStream es = IOUtils.toInputStream(errOutput.toString(), "UTF-8");
+                    message.getChannel().sendFile(es, "err.txt").queue();
+                }
             }
-            try {
-                long time = System.currentTimeMillis();
-                Process p = pb.start();
-                StringBuilder output = new StringBuilder();
-                StringBuilder errOutput = new StringBuilder();
-                BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(p.getInputStream())
-                );
-                BufferedReader errReader = new BufferedReader(
-                    new InputStreamReader(p.getErrorStream())
-                );
-                String line, err;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line + "\n");
-                }
-                while ((err = errReader.readLine()) != null) {
-                    errOutput.append(err + "\n");
-                }
-                p.waitFor();
-                if (errOutput.toString().equals(""))
-                    errOutput.append("Empty");
-                if (output.toString().length() < 1024) {
-                    message.getChannel().sendMessage(toEmbed(shellCommand, output.toString(), errOutput.toString(), time)).queue();
-                } else {
-                    output.append("\nTime Elapsed: " + (System.currentTimeMillis() - time) + "ms\n");
-                    InputStream is = IOUtils.toInputStream(output.toString(), "UTF-8");
-                    message.getChannel().sendFile(is, "output.txt").queue();
-                    if (!errOutput.toString().equals("Empty")) {
-                        InputStream es = IOUtils.toInputStream(errOutput.toString(), "UTF-8");
-                        message.getChannel().sendFile(es, "err.txt").queue();
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

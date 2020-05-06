@@ -16,6 +16,7 @@
 
 package me.argraur.railgun.interfaces;
 
+import me.argraur.railgun.level.Level;
 import net.dv8tion.jda.api.entities.Message;
 
 /**
@@ -39,6 +40,13 @@ public interface Command {
      * @return Returns String with command's description.
      */
     String getDescription();
+
+    /**
+     * @return Returns int with command's access level
+     */
+    default int getLevel() {
+        return Level.NORMAL;
+    }
 
     /**
      * Called when received command.

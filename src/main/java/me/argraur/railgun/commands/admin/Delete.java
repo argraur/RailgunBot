@@ -16,15 +16,16 @@
 
 package me.argraur.railgun.commands.admin;
 
+import me.argraur.railgun.level.Level;
 import me.argraur.railgun.interfaces.Command;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Delete implements Command {
     private final String command = "del";
     private final String usage = command + " <message link>";
     private final String description = "Delete given message";
+    private final int level = Level.MESSAGE;
 
     /**
      * Returns command name.
@@ -57,6 +58,16 @@ public class Delete implements Command {
     }
 
     /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    /**
      * Called by CommandHandler when received message with command
      * 
      * @param message object
@@ -64,10 +75,8 @@ public class Delete implements Command {
     @Override
     public void call(final Message message) {
         final String id = message.getContentRaw().split(" ")[1].split("/")[6];
-        if (message.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            System.out.println(id);
-            message.getChannel().deleteMessageById(id).queue();
-            message.delete().queue();
-        }
+        System.out.println(id);
+        message.getChannel().deleteMessageById(id).queue();
+        message.delete().queue();
     }
 }
