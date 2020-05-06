@@ -36,11 +36,30 @@ public class Help {
      * @param command Command we need to create embed for
      * @return Ready embed help for given command.
      */
-    public static MessageEmbed createEmbed(final StringBuilder output, final String command) {
+    public static MessageEmbed createEmbed(final String description, final String usage, final String command) {
         final EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(Color.pink);
         embedBuilder.setTitle(command);
-        embedBuilder.setDescription(output.toString());
+        embedBuilder.addField("Description", description, false);
+        embedBuilder.addField("Usage", "`" + usage + "`", false);
+        final String misakaPic = "https://media.discordapp.net/attachments/698965374317625345/699022743542169691/oof.jpg?width=799&height=677";
+        embedBuilder.setThumbnail(misakaPic);
+        return embedBuilder.build();
+    }
+
+    /**
+     * Creates embed help for given command.
+     * @param output Description got from call(...) method
+     * @param command Command we need to create embed for
+     * @return Ready embed help for given command.
+     */
+    public static MessageEmbed createEmbed(final String description, final String usage, final String commands, final String command) {
+        final EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(Color.pink);
+        embedBuilder.setTitle(command);
+        embedBuilder.addField("Description", description, false);
+        embedBuilder.addField("Usage", "`" + usage + "`", false);
+        embedBuilder.addField("Available commands", commands, false);
         final String misakaPic = "https://media.discordapp.net/attachments/698965374317625345/699022743542169691/oof.jpg?width=799&height=677";
         embedBuilder.setThumbnail(misakaPic);
         return embedBuilder.build();
@@ -59,18 +78,22 @@ public class Help {
             for (final Command command : commands.values()) {
                 System.out.println("[HelpCommand] Loading help for command " + command.getCommand());
                 help.put(command.getCommand(), createEmbed(
-                        new StringBuilder().append("**Description:** *").append(command.getDescription()).append("*\n")
-                                .append("**Usage:** `").append(prefix).append(command.getUsage()).append("`\n\n"),
-                        prefix + command.getCommand()));
+                        command.getDescription(),
+                        prefix + command.getUsage(),
+                        prefix + command.getCommand()
+                ));
             }
         }
-        final StringBuilder helpCommand = new StringBuilder().append("**Description:** *").append(description)
-                .append("*\n").append("**Usage: ** `").append(prefix).append(usage).append("`\n")
-                .append("**Available commands: ** ```fix\n");
+        final StringBuilder helpCommand = new StringBuilder().append("```fix\n");
         for (final Command command : commands.values())
-            helpCommand.append(command.getCommand()).append("\n");
-        helpCommand.append("\n```\n");
-        help.put(command, createEmbed(helpCommand, prefix + command));
+            helpCommand.append(command.getCommand()).append(" ");
+        helpCommand.append("\n```");
+        help.put(command, createEmbed(
+                        description,
+                        prefix + usage,
+                        helpCommand.toString(),
+                        prefix + command
+                ));
         try {
             message.getChannel().sendMessage(help.get(message.getContentDisplay().split(" ")[1])).queue();
         } catch (final IndexOutOfBoundsException e) {
