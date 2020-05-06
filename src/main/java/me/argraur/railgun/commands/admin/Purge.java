@@ -16,15 +16,19 @@
 
 package me.argraur.railgun.commands.admin;
 
+import me.argraur.railgun.level.Level;
+
+import java.util.List;
+
 import me.argraur.railgun.interfaces.Command;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 
 public class Purge implements Command {
     private final String command = "purge";
     private final String usage = command + " <n>";
     private final String description = "Removes n last messages.";
+    private final int level = Level.MESSAGE;
 
     @Override
     public String getCommand() {
@@ -41,11 +45,26 @@ public class Purge implements Command {
         return description;
     }
 
+    /**
+     * Returns command's access level
+     * 
+     * @return level
+     */
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
     @Override
     public void call(Message message) {
-        if (message.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+        try {
             int amount = Integer.parseInt(message.getContentRaw().split(" ")[1]);
             message.getChannel().purgeMessages(message.getChannel().getHistory().retrievePast(amount + 1).complete());
+        } catch (NumberFormatException e) {
+            final String id = message.getContentRaw().split(" ")[1].split("/")[6];
+            List<Message> history = message.getChannel().getHistoryAfter(id, 100).complete().getRetrievedHistory();
+            message.getChannel().deleteMessageById(id).queue();
+            message.getChannel().purgeMessages(history);
         }
     }
 }
