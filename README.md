@@ -73,6 +73,8 @@ Configurations are located in `src/main/resources/config.properties` file.
 
 `.gif <query> [mention]` - Search gif for a given query
 
+`.guildid` - Return guild's id
+
 `.hug <mention>` - Hugs the mentioned user!
 
 `.ignore <mention>` - Ignores given user.

@@ -77,6 +77,7 @@ public class CommandHandler {
         registerCommand(new Color());
         registerCommand(new Delete());
         registerCommand(new Gif());
+        registerCommand(new GuildId());
         registerCommand(new Hug());
         registerCommand(new Id());
         registerCommand(new Jenkins());
